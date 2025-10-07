@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Loosely referenced: https://dev.to/boonecabal/how-to-create-a-lightweight-dotfiles-repository-28dh
+
 # Get vars.
 CWD="$(pwd)"
 TIME="$(date +%Y%m%d%H%M%S)"
@@ -30,6 +32,7 @@ else
   mkdir -p "$CONFIG/fish"
 fi
 ln -s "$CWD/fish/config.fish" "$CONFIG/fish/config.fish"
+chsh -s $(which fish)
 
 # Lazygit
 if [[ "$OSTYPE" == "darwin"* ]]; then
