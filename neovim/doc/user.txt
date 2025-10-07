@@ -1,0 +1,161 @@
+*user.txt* General help for all installed plugins.
+
+==============================================================================
+CONTENTS                                                         *user.contents*
+
+1. `Navigation`                                    |user.navigation|
+  1.1 In-File Navigation                         |user.in_file_navigation|
+    1.1a Vertical Movement                       |user.vertical_movement|
+    1.1b Horizontal Movement                     |user.horizontal_movement|
+    1.1c In-File Searching                       |user.in_file_searching|
+  1.2 Buffer Navigation                          |user.buffer_navigation|
+  1.3 File Navigation                            |user.file_navigation|
+    1.3a Telescope                               |user.telescope_file|
+    1.3b Grapple                                 |user.grapple|
+    1.3c Oil                                     |user.oil|
+  1.4 Special Navigation Keybinds                |user.special_navigation|
+
+2. `Editing`                                       |user.editing|
+
+3. `Buffers & Tabs`                                |user.buffer_tab|
+  3.1 Buffers                                    |user.buffers|
+  3.2 Tabs                                       |user.tabs|
+
+4. `Searching`                                     |user.searching|
+  4.1 Telescope                                  |user.telescope|
+  4.2 Quickfix List                              |user.quickfix|
+  4.3 LSP Searching                              |user.lsp_search|
+
+5. `LSP`                                           |user.lsp|
+  5.1 Specific LSPs                              |user.lsps|
+    5.1a clangd                                  |user.clangd|
+    5.1b gdscript                                |user.gdscript|
+
+==============================================================================
+1. Navigation                                                  *user.navigation*
+
+Navigation in NeoVim is generally done using the `h`, `j`, `k`, & `l` keys for
+cardinal directions. Navigations which does not use this can sometimes use `u`
+and `d` to indicate '[u]p' and '[d]own', `g` to for '[g]o', `f` for '[f]ind', or
+some non-generic atomic operation.
+
+Most navigation in this configuration follows this standard, although
+there are some exceptions.
+
+------------------------------------------------------------------------------
+1.1 In-File Navigation                                 *user.in_file_navigation*
+
+In-file nagivation can be split into three parts: vertical (get to the
+line), horizontal (get to the character), and search (get somewhere).
+
+`|======================|`
+ `1.1a Vertical Movement`                                 *user.vertical_movement* 
+
+Vertical movement is relatively simple, mainly consisting of chaining
+fixed-size jumps.
+
+`k` and `j` take you up an down a line, `<C-u>` and `<C-d>` do the same but
+for a half-page. `gg` and `G` take you to the top and bottom lines of the
+  file, `H` and `L` do the same for your screen.
+
+Prepending a number before `k` or `j` jumps you that many lines in the
+direction. This can be combined with relative line numbers to make the
+required number visible.
+
+An effective strategy for vertical movement is using `<C-u>` & `<C-d>` to
+scroll around and finishing with a specific length relative jump with
+`[count]k` or `[count]j`.
+
+If you know the specific line numbers, `[count]G`, `[count]gg`, or
+`:[count]<BR>` will all take you to a line number.
+
+`[count]%` will take you to the line that percent down the file.
+
+`(` or `)`, and `{` or `}` will take you forward/backward through sentances
+and paragraphs respectively.
+
+`|========================|`
+ `1.1b Horizontal Movement`                             *user.horizontal_movement*
+
+Horizontal movement is significantly more complex. Effective horizontal
+movement involves quick jumps to identified landmarks (e.g. a letter,
+brackets, the start of the line).
+
+`h` and `l` take you backwards and forwards on a line. These can be prefixed
+with [count] but counting characters is hard.
+
+There are quite a few keys which take you to the start or end of a line in
+different flavors, these are all useful to some extent:
+- `0` takes you to the first character on a line.
+- `$` takes you to the last one (this persists when going up/down).
+- `^` takes you to the first non-blank character.
+  - `_` does the same thing but also takes you [count] - 1 down (this is
+  generally indistinguishable from `^`).
+  - `-` and `+` do the same thing but take you [count] lines up or down.
+- `g_` takes you the the last non-blank character and [count] (this is not
+  very useful as you don't see this often and it doesn't persist like `$`).
+- Prefixing one of the non-up/down keys with `g` (`g0`, `g$`, or `g^`) does
+  the same thing but on the screen line. `g<END>` acts like the `g_` equivalent
+  of `g^` but it's not very useful and I don't have the key on my keyboard.
+
+The main meat of horizontal movement is in find operators. These take you to
+instances of characters, relative to the cursor, in the current line:
+- `f{char}` takes you to the next instance of {char} to the right.
+- `F{char}` takes you to the next instance of {char} to the left.
+- `t{char}` takes you to the character before the next instance to the right.
+- `T{char}` takes you to the character before the next instance to the left.
+- All of these operators can be prepended with [count] to go to the [count]th
+  {char}.
+- `;` repeats the last find operator [count] times.
+- `,` repeats the last find operator [count] times in the other direction.
+
+Another method for horizontal movement is using word operators. These act on
+words (contiguous letters, digits, or underscores or contiguous other
+characters, separated by whitespace) or WORDS (contiguous characters separated
+by whitespace).
+- `w` takes you forward [count] words, to the start of a word.
+- `W` takes you forward [count] WORDS, to the start of a word.
+- `b` takes you backward [count] words, to the start of a word.
+- `B` takes you backward [count] WORDS, to the start of a word.
+- `e` takes you forward [count] words, to the end of a word.
+- `E` takes you forward [count] WORDS, to the end of a word.
+- `ge` takes you backward [count] words, to the end of a word.
+- `gE` takes you backward [count] WORDS, to the end of a word.
+
+`|=======================|`
+ `1.1c  In-File Searching`                                *user.in_file_searching*
+
+The final form of navigation in files is searching. This involves finding or
+jumping to the positions of known or semi-known landmarks (e.g. a function
+name, a print statement you think exists).
+
+Searching is largely done with the `/` and `?` characters, searching forwards and
+backwards respectively.
+- `/{pattern}<CR>` (and the equivalent for `?`) searches
+  forward to the [count]th occurrence of {pattern}. This kind of search ignores
+  case unless {pattern} contains upper case characters.
+- `/{pattern}/{offset}<CR>` (and the equivalent for `?`) searches backward to
+  the [count]th occurrence on {pattern} with an offset of {offset}.
+- `n` repeats the last usage of `/` or `?` [count] times.
+- `N` repeats the last usage of `/` or `?` [count] times in the opposite direction.
+- `/<CR>` and `?<CR>` search forward and backward using the last used pattern and offset.
+- `//{offset}<CR>` and `??{offset}<CR>` search forward and backward using the
+  last used pattern and a new {offset}.
+- `*` and `#` search forward and backward to the [count]th occurrence of the
+  word nearest to the cursor. These ignore case when searching and search for
+  whole words and not substrings.
+- `g*` and `g#` act similarly to their non-prefixed counterparts but accept
+  substrings.
+
+Offsets modify the final cursor position relative to the match, the following
+are valid:
+- [num] or +[num] offset [num] lines downward, in column 1.
+- -[num] offsets [num] lines upward, in column 1.
+- e[+num] and e[-num] offset [num] characters to the right and left of the end
+  of the match.
+- s[+num] and s[-num] offset [num] characters to the right and left of the
+  start of the match.
+  - b[+num] and b[-num] are equivalent.
+- ;/{pattern} and ;?{pattern} perform another search.
+  
+Patterns are much more complex.

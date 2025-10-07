@@ -1,0 +1,94 @@
+local M = {}
+
+local pickers = require("telescope.pickers")
+local finders = require("telescope.finders")
+
+local conf = require("telescope.config").values
+local make_entry = require("telescope.make_entry")
+local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
+
+local function get_terms()
+  return vim.tbl_filter(
+    function(buf)
+      return vim.bo[buf].buftype == "terminal"
+    end, vim.api.nvim_list_bufs())
+end
+
+M.ts_terms = function(opts)
+  opts = opts or {}
+
+  local bufnrs = get_terms()
+  if #bufnrs == 0 then
+    vim.notify("no terminal buffers are open")
+    return
+  end
+
+  local bufs = {}
+  for _, buf in ipairs(bufnrs) do
+    table.insert(bufs, { bufnr = buf, flag = "", info = vim.fn.getbufinfo(buf)[1] })
+  end
+
+  if not opts.bufnr_width then
+    opts.bufnr_width = #tostring(math.max(unpack(bufnrs)))
+  end
+
+  pickers.new(opts, {
+    prompt_title = "Terminals",
+    finder = finders.new_table {
+      results = bufs,
+      entry_maker = make_entry.gen_from_buffer(opts),
+    },
+    previewer = conf.grep_previewer(opts),
+    sorter = conf.generic_sorter(opts),
+    attach_mappings = function(_, map)
+      map({ "i", "n" }, "<M-d>", actions.delete_buffer)
+      return true
+    end,
+  }):find()
+end
+
+M.ts_projects = function(opts)
+  opts = opts or {}
+
+  local p = require("scripts.project_utils")
+  if not p.load_projects() then return end
+
+  local proj = {}
+  local n = 1
+  for k, v in pairs(_G.projects) do
+    proj[n] = { k, v[1], v[2], v[3], v[4] }
+    n = n + 1
+  end
+  table.sort(proj, function(a, b) return a[5] > b[5] end)
+
+  pickers.new(opts, {
+    prompt_title = "Projects",
+    finder = finders.new_table {
+      results = proj,
+      entry_maker = function(e)
+        local path = e[3] ~= nil and e[3] or e[4]
+        if path ~= nil then
+          if e[2] ~= nil then path = e[2] .. path end
+        else path = "" end
+        return {
+          path = path,
+          display = e[1],
+          ordinal = e[1],
+        }
+      end,
+    },
+    previewer = conf.file_previewer(opts),
+    sorter = conf.generic_sorter(opts),
+    attach_mappings = function(prompt_bufnr, _)
+      actions.select_default:replace(function()
+        actions.close(prompt_bufnr)
+        local sel = action_state.get_selected_entry()
+        p.load_project(sel.ordinal)
+      end)
+      return true
+    end,
+  }):find()
+end
+
+return M

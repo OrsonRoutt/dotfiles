@@ -1,0 +1,131 @@
+-- Taken from https://github.com/LunarVim/horizon.nvim
+local M = {}
+
+local c = {
+  fg = "#8B8D8F",
+  bg = "#1D1F27",
+  dark = "#16161C",
+  accent = "#6C6F93",
+  search_blue = "#083C5A",
+  gray = "#4B4C53",
+  reference = "#2E303E",
+  dark_gray = "#21252E",
+  light_gray = "#C8CCD4",
+  purple = "#B877DB",
+  cyan = "#25B2BC",
+  red = "#E95678",
+  orange = "#F09383",
+  yelloworange = "#FAB795",
+  yellow = "#FAC29A",
+  cursor_fg = "#515052",
+  cursor_bg = "#8E8F8D",
+  sign_add = "#27D796",
+  sign_change = "#21BFC2",
+  sign_delete = "#E95379",
+  error = "#F43E5C",
+  warn = "#FAB28E",
+  info = "#27D0D6",
+  hint = "#6C6F93",
+  ok = "#27D796",
+  error_bg = "#33222C",
+  warn_bg = "#332E31",
+  info_bg = "#212A3B",
+  hint_bg = "#252732",
+  ok_bg = "#1E3132",
+  success_green = "#09F7A0",
+  purple_test = "#FF007C",
+  cyan_test = "#00DFFF",
+  ui_blue = "#214A63",
+  ui2_blue = "#042E48",
+  ui3_blue = "#0195F7",
+  ui4_blue = "#75BEFF",
+  ui_orange = "#E8AB53",
+  ui_purple = "#B180D7",
+}
+
+local vars = {
+  vim = {
+    cursor_fg = c.cursor_fg,
+    cursor_bg = c.cursor_bg,
+    cursor_line = c.dark_gray,
+    visual = c.ui_blue,
+    cur_search = c.ui4_blue,
+    cur_search_fg = c.bg,
+    search = c.ui2_blue,
+    search_fg = "NONE",
+    folded = c.gray,
+    folded_bg = c.dark_gray,
+    special = c.red,
+  },
+  ui = {
+    fg = c.fg,
+    bg = c.bg,
+    bg_alt = c.dark_gray,
+    black = c.dark,
+    dark = c.gray,
+    light = c.light_gray,
+    special = c.hint,
+    prompt = c.orange,
+    title = c.yellow,
+    sep = c.fg,
+  },
+  diag = {
+    error = c.error,
+    warn = c.warn,
+    info = c.info,
+    hint = c.hint,
+    ok = c.ok,
+    error_bg = c.error_bg,
+    warn_bg = c.warn_bg,
+    info_bg = c.info_bg,
+    hint_bg = c.hint_bg,
+    ok_bg = c.ok_bg,
+    other = c.purple,
+  },
+  spell = {
+    bad = c.red,
+    cap = c.yellow,
+    loc = c.yelloworange,
+    rare = c.purple,
+  },
+  diff = {
+    fg = c.bg,
+    add = c.sign_add,
+    change = c.sign_change,
+    delete = c.sign_delete,
+    text = c.sign_delete,
+  },
+  code = {
+    literal = c.orange,
+    string = c.yelloworange,
+    comment = c.gray,
+    variable = c.red,
+    keyword = c.purple,
+    type = c.yellow,
+    func = c.cyan,
+    operator = c.fg,
+  },
+  stl = {
+    fg = c.fg,
+    bg = c.dark_gray,
+    bg_hi = c.gray,
+    normal = c.cyan,
+    visual = c.hint,
+    select = c.orange,
+    insert = c.purple,
+    replace = c.yellow,
+    command = c.sign_add,
+    confirm = c.hint,
+    terminal = c.sign_add,
+  },
+}
+
+M.get_vars = function() return vars end
+
+M.get_highlights = function()
+  return {}
+end
+
+M.config = function() end
+
+return M

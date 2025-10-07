@@ -1,0 +1,4 @@
+gui:
+  scrollHeight: 10
+  mouseEvents: false
+  nerdFontsVersion: "3"
