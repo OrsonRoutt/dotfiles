@@ -15,6 +15,7 @@ end
 set XDG_CONFIG_HOME $HOME/.config
 set XDG_DATA_HOME $HOME/.local/share
 set XDG_STATE_HOME $HOME/.local/state
+set XDG_CACHE_HOME $HOME/.cache
 
 # Read from `/tmp/fish_cwd` and, if it exists, `cd` to it..
 function cwd
