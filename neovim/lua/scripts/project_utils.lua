@@ -21,6 +21,7 @@ M.load_project = function(name)
   if project[1] then vim.cmd("cd " .. project[1]) end
   if project[3] then vim.cmd("e " .. project[3]) end
   project[4] = os.time()
+  if project[5] then require("grapple").use_scope(project[5]) end
   require("scripts.fileio").save_file(vim.g.projects_file, projects)
 end
 
