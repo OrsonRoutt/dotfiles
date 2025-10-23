@@ -2,7 +2,7 @@ local M = {}
 
 local get_buf_opt = vim.api.nvim_get_option_value
 
-local bl_filetypes = { "lazy", "NvimTree" }
+local bl_filetypes = { "lazy" }
 local bl_buftypes = { "terminal", "quickfix", "prompt" }
 
 local function filter_bl(bufs)

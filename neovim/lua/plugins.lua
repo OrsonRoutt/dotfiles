@@ -40,11 +40,6 @@ return {
     config = function(_, opts) require("nvim-autopairs").setup(opts) end,
   },
   {
-    "johnfrankmorgan/whitespace.nvim",
-    opts = function() return require("configs.whitespace") end,
-    event = "User FilePost",
-  },
-  {
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "kevinhwang91/nvim-ufo" },

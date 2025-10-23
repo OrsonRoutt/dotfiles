@@ -1,7 +1,11 @@
 local autocmd = vim.api.nvim_create_autocmd
+local augroup = vim.api.nvim_create_augroup
+
+augroup("user", { clear = true })
 
 -- Setup 4 space tab filetypes.
 autocmd("FileType", {
+  group = "user",
   pattern = { "gdscript", "cpp" },
   callback = function()
     vim.bo.sw = 4
@@ -14,31 +18,34 @@ autocmd("FileType", {
 
 -- Setup spell check filetypes.
 autocmd("FileType", {
+  group = "user",
   pattern = { "markdown", "typst", "vimwiki" },
   callback = function() vim.opt_local.spell = true end,
 })
 
 -- Setup help file type.
 autocmd({"BufRead", "BufNewFile"}, {
-  group = vim.api.nvim_create_augroup("FiletypeHelp", { clear = true }),
+  group = "user",
   pattern = "*/doc/*.txt",
   callback = function() vim.bo.filetype = "help" end,
 })
 
 -- Setup vimwiki file type.
 autocmd({"BufRead", "BufNewFile"}, {
+  group = "user",
   pattern = "*.wiki",
   callback = function() vim.bo.filetype = "vimwiki" end,
 })
 
 -- Yank highlight.
 autocmd("TextYankPost", {
-  group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+  group = "user",
   callback = function() vim.highlight.on_yank() end,
 })
 
 -- Close terminals on ok status.
 autocmd("TermClose", {
+  group = "user",
   callback = function(opts)
     if vim.v.event.status == 0 then
       vim.api.nvim_buf_delete(opts.buf, { force = true })
@@ -48,11 +55,14 @@ autocmd("TermClose", {
 
 -- Update statusline on LSP progress.
 autocmd("LspProgress", {
+  group = "user",
   pattern = "*",
   command = "redrawstatus",
 })
 
+-- Notify fish of cwd change on suspend.
 autocmd("VimSuspend", {
+  group = "user",
   callback = function()
     local tmp = io.open("/tmp/fish_cwd", "w")
     if tmp then
@@ -61,6 +71,8 @@ autocmd("VimSuspend", {
     end
   end,
 })
+
+require("scripts.whitespace").autocmds()
 
 -- NVChad 'User FilePost' event.
 autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {

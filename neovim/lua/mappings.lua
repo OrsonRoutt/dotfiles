@@ -152,7 +152,7 @@ map("n", "<leader>gS", "<cmd>Grapple toggle_scopes<CR>", { desc = "grapple toggl
 map("n", "<leader>gL", "<cmd>Grapple toggle_loaded<CR>", { desc = "grapple toggle loaded scopes window" })
 
 -- Whitespace mappings.
-map("n", "<leader>tw", function() require("whitespace-nvim").trim() end, { desc = "trim whitespace" })
+map("n", "<leader>tw", function() require("scripts.whitespace").trim() end, { desc = "trim whitespace" })
 
 -- Theme mappings.
 local function index_of(tbl, val)

@@ -49,7 +49,7 @@ In-file nagivation can be split into three parts: vertical (get to the
 line), horizontal (get to the character), and search (get somewhere).
 
 `|======================|`
- `1.1a Vertical Movement`                                 *user.vertical_movement* 
+ `1.1a Vertical Movement`                                 *user.vertical_movement*
 
 Vertical movement is relatively simple, mainly consisting of chaining
 fixed-size jumps.
@@ -157,5 +157,5 @@ are valid:
   start of the match.
   - b[+num] and b[-num] are equivalent.
 - ;/{pattern} and ;?{pattern} perform another search.
-  
+
 Patterns are much more complex.
