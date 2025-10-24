@@ -196,6 +196,9 @@ map("n", "<leader>gb", "<cmd>Gitsigns blame_line<CR>", { desc = "git line blame"
 map("n", "<leader>gc", "<cmd>Gitsigns toggle_current_line_blame<CR>", { desc = "git toggle current line blame" })
 map("n", "<leader>gB", "<cmd>Gitsigns blame<CR>", { desc = "git blame buffer" })
 
+-- Git mappings.
+map("n", "<leader>go", function() require("scripts.gitopen").gitopen() end, { desc = "git open remote" })
+
 -- Terminal mappings.
 map("n", "<leader>h", function() require("scripts.term").new_split({ split = "below", height = 0.3 })
 end, { desc = "terminal new horizontal term" })
