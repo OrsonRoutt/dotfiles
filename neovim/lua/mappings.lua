@@ -42,10 +42,16 @@ map("n", "<leader>M", function()
 end, { desc = "toggle mouse enabled" })
 
 -- Window navigation.
-map("n", "<C-h>", "<C-w>h", { desc = "switch window left" })
-map("n", "<C-l>", "<C-w>l", { desc = "switch window right" })
-map("n", "<C-j>", "<C-w>j", { desc = "switch window down" })
-map("n", "<C-k>", "<C-w>k", { desc = "switch window up" })
+map({"n", "v"}, "<C-h>", "<C-w>h", { desc = "switch window left" })
+map({"n", "v"}, "<C-j>", "<C-w>j", { desc = "switch window down" })
+map({"n", "v"}, "<C-k>", "<C-w>k", { desc = "switch window up" })
+map({"n", "v"}, "<C-l>", "<C-w>l", { desc = "switch window right" })
+
+-- Window resizing.
+map({"n", "v"}, "<C-left>", "2<C-w><", { desc = "resize window left" })
+map({"n", "v"}, "<C-down>", "2<C-w>-", { desc = "resize window down" })
+map({"n", "v"}, "<C-up>", "2<C-w>+", { desc = "resize window up" })
+map({"n", "v"}, "<C-right>", "2<C-w>>", { desc = "resize window right" })
 
 -- Better visual indent.
 map("v", ">", ">gv")
@@ -123,10 +129,14 @@ map("n", "<leader>fs", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "tele
 map("n", "<leader>fS", "<cmd>Telescope lsp_workspace_symbols<CR>", { desc = "telescope find symbols in workspace" })
 map("n", "<leader>fd", "<cmd>Telescope lsp_definitions<CR>", { desc = "telescope find definitions" })
 map("n", "<leader>ft", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "telescope find type definitions" })
-map("n", "<leader>fg", "<cmd>Telescope grapple tags<CR>", { desc = "telescope find grapple tags" })
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
 map("n", "<leader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>", { desc = "telescope find all files" })
 map("n", "<leader>fm", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" })
+map("n", "<leader>fH", "<cmd>Telescope highlights<CR>", { desc = "telescope find highlights" })
+map("n", "<leader>fB", "<cmd>Telescope builtin<CR>", { desc = "telescope find builtins" })
+
+map("n", "<leader>fg", "<cmd>Telescope grapple tags<CR>", { desc = "telescope find grapple tags" })
+
 map("n", "<leader>fT", "<cmd>Telescope terms<CR>", { desc = "telescope find terminals" })
 map("n", "<leader>fp", "<cmd>Telescope projects<CR>", { desc = "telescope find projects" })
 
