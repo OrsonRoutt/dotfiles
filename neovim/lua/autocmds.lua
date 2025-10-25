@@ -48,7 +48,10 @@ autocmd("TermClose", {
   group = "user",
   callback = function(opts)
     if vim.v.event.status == 0 then
-      vim.api.nvim_buf_delete(opts.buf, { force = true })
+      local buf = opts.buf
+      if vim.api.nvim_buf_is_loaded(buf) then
+        vim.api.nvim_buf_delete(buf, { force = true })
+      end
     end
   end,
 })

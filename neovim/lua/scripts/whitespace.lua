@@ -27,6 +27,7 @@ end
 M.autocmds = function()
   vim.api.nvim_create_autocmd("FileType", { group = "user", callback = try_highlight })
   vim.api.nvim_create_autocmd("BufEnter", { group = "user", callback = try_highlight })
+  vim.api.nvim_create_autocmd("TermOpen", { group = "user", callback = try_highlight })
   vim.api.nvim_create_autocmd("UiEnter", { group = "user", callback = try_highlight })
 end
 

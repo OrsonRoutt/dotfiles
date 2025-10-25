@@ -1,7 +1,11 @@
+user.buffers	user.txt	/*user.buffers*
 user.contents	user.txt	/*user.contents*
 user.horizontal_movement	user.txt	/*user.horizontal_movement*
 user.in_file_navigation	user.txt	/*user.in_file_navigation*
 user.in_file_searching	user.txt	/*user.in_file_searching*
 user.navigation	user.txt	/*user.navigation*
+user.out_file_navigation	user.txt	/*user.out_file_navigation*
+user.tabs	user.txt	/*user.tabs*
 user.txt	user.txt	/*user.txt*
 user.vertical_movement	user.txt	/*user.vertical_movement*
+user.windows	user.txt	/*user.windows*
