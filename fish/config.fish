@@ -38,5 +38,10 @@ function fg
   cwd
 end
 
+# Customise `ls`.
+function ls
+  command ls -A -p -C --color=auto $argv
+end
+
 # Bind <C-z> to 'fg'.
 bind \cz 'fg 2>/dev/null;commandline -f repaint'
