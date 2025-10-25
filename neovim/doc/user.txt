@@ -210,6 +210,32 @@ commands into them:
   vertical split to the left of the current window with a readonly buffer in
   it.
 
+Behavior when closing windows is dependent on the option 'hidden'. When
+'hidden' is unset, closing the last window for a buffer will remove the
+buffer. When 'hidden' is set, closing the window will not remove the buffer,
+hiding it instead.
+
+Windows can be closed in multiple ways:
+- `<C-w>q` or `:{count}q[uit][!]` closes the current window, exiting vim if it was
+  the last non-help/preview window. Will not close the last window (or the
+  last window for a buffer with 'hidden' unset) if it has changes, ! overrides
+  this, discarding changes.
+- `<C-w>c` or `:{count}clo[se][!]` closes the current window. Will not close the
+  last window, and will not close the last window for a buffer if it has
+  changes and 'hidden' is unset. ! makes the command act as if 'hidden' was
+  set.
+- `:{count}hid[e]` closes the current window, acting as if 'hidden' was set.
+- `:hid[e] {cmd}` executes {cmd} as if 'hidden' was set.
+- `<C-w>o` or `:{count}on[ly][!]` makes the current window the only one on screen,
+  closing all others. If 'hidden' is unset, doesn't close windows with
+  changes. ! overrides this, making them hidden.
+- `[count]fc[lose][!]` closes the [count] highest floating windows. ! closes all
+  floating windows.
+- For window closing commands, {count} optionally defines the window to close:
+  - A number closes that window, with 1 being the first.
+  - $ closes the last window.
+  - +N and -N close the Nth next and Nth previous windows.
+
 
 
 `|============|`

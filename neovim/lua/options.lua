@@ -51,6 +51,8 @@ o.undofile = true
 
 o.updatetime = 250
 
+o.history = 1000
+
 require("scripts.statuscol")
 vim.o.statuscolumn = "%!v:lua.get_statuscol()"
 require("scripts.statusline")
