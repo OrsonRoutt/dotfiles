@@ -159,15 +159,15 @@ local function index_of(tbl, val)
   for i, v in ipairs(tbl) do if v == val then return i end end
   return nil
 end
-map("n", "<leader>ts", function() require("scripts.themes").save_theme_file() end, { desc = "theme save" })
-map("n", "<leader>tt", function() require("scripts.themes").toggle_transparency() end, { desc = "theme toggle transparent" })
+map("n", "<leader>ts", function() require("scripts.theme").save_theme_file() end, { desc = "theme save" })
+map("n", "<leader>tt", function() require("scripts.theme").toggle_transparency() end, { desc = "theme toggle transparent" })
 map("n", "<leader>tn", function()
   local themes = vim.g.themes
   local idx = index_of(themes, vim.g.theme)
   if idx then
     if idx == #themes then idx = 1
     else idx = idx + 1 end
-    require("scripts.themes").set_theme(themes[idx])
+    require("scripts.theme").set_theme(themes[idx])
   else vim.notify("current theme is not in themes table: '" .. vim.g.theme .. "'", vim.log.levels.ERROR) end
 end, { desc = "theme next" })
 map("n", "<leader>tp", function()
@@ -176,12 +176,12 @@ map("n", "<leader>tp", function()
   if idx then
     if idx == 1 then idx = #themes
     else idx = idx - 1 end
-    require("scripts.themes").set_theme(themes[idx])
+    require("scripts.theme").set_theme(themes[idx])
   else vim.notify("current theme is not in themes table: '" .. vim.g.theme .. "'", vim.log.levels.ERROR) end
 end, { desc = "theme previous" })
 vim.api.nvim_create_user_command("Theme", function(args)
   if #args.fargs == 0 then vim.notify("current theme is: '" .. vim.g.theme .. "'")
-  else require("scripts.themes").set_theme(args.fargs[1]) end
+  else require("scripts.theme").set_theme(args.fargs[1]) end
 end, { nargs = "?" })
 
 -- Projects mappings.
