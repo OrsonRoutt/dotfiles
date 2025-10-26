@@ -42,16 +42,20 @@ map("n", "<leader>M", function()
 end, { desc = "toggle mouse enabled" })
 
 -- Window navigation.
-map({"n", "v"}, "<C-h>", "<C-w>h", { desc = "switch window left" })
-map({"n", "v"}, "<C-j>", "<C-w>j", { desc = "switch window down" })
-map({"n", "v"}, "<C-k>", "<C-w>k", { desc = "switch window up" })
-map({"n", "v"}, "<C-l>", "<C-w>l", { desc = "switch window right" })
+map({"n", "v"}, "<C-h>", "<C-w>h", { desc = "window switch left" })
+map({"n", "v"}, "<C-j>", "<C-w>j", { desc = "window switch down" })
+map({"n", "v"}, "<C-k>", "<C-w>k", { desc = "window switch up" })
+map({"n", "v"}, "<C-l>", "<C-w>l", { desc = "window switch right" })
 
 -- Window resizing.
-map({"n", "v"}, "<C-left>", "2<C-w><", { desc = "resize window left" })
-map({"n", "v"}, "<C-down>", "2<C-w>-", { desc = "resize window down" })
-map({"n", "v"}, "<C-up>", "2<C-w>+", { desc = "resize window up" })
-map({"n", "v"}, "<C-right>", "2<C-w>>", { desc = "resize window right" })
+map({"n", "v"}, "<C-up>", function() vim.fn.feedkeys((vim.v.count1 * 2) .. "+")
+end, { desc = "window resize increase vertical" })
+map({"n", "v"}, "<C-down>", function() vim.fn.feedkeys((vim.v.count1 * 2) .. "-")
+end, { desc = "window resize decrease vertical" })
+map({"n", "v"}, "<C-right>", function() vim.fn.feedkeys((vim.v.count1 * 2) .. ">")
+end, { desc = "window resize increase horizontal" })
+map({"n", "v"}, "<C-left>", function() vim.fn.feedkeys((vim.v.count1 * 2) .. "<")
+end, { desc = "window resize decrease horizontal" })
 
 -- Better visual indent.
 map("v", ">", ">gv")
