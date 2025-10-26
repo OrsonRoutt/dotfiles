@@ -233,7 +233,7 @@ local function create_highlights(vars)
       ["@tag.delimiter"] = { link = "Tag" },
       -- Treesitter Languages
       ["@attribute.gdscript"] = { link = "@attribute.builtin" }, -- All attributes in gdscript are builtin but they are not flagged as such.
-      -- Statusline [WIP]
+      -- Statusline
       StatusLine = { fg = vars.stl.fg, bg = vars.stl.bg },
       StatusLineNC = { link = "StatusLine" },
       StatusLineTerm = { link = "StatusLine" },
