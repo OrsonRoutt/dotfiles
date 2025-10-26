@@ -198,8 +198,7 @@ commands into them:
 - `:hor[izontal] {cmd}` and `:vert[ical] {cmd}` make {cmd} split vertically
   or horizontally.
   - These can also be used to modify `:te[rminal]` and `:che[ckhealth]` to make
-    them create splits, and can modify `:winc[md] =` to make it only equalise
-    horizontally or vertically.
+    them create splits.
 - `:lefta[bove] {cmd}` or `:abo[veleft] {cmd}`, and `:rightb[elow] {cmd}` or
   `:bel[owright] {cmd}` make {cmd} split above/left and below/right based on
   whether it would have split horizontally/vertically.
@@ -216,27 +215,68 @@ buffer. When 'hidden' is set, closing the window will not remove the buffer,
 hiding it instead.
 
 Windows can be closed in multiple ways:
-- `<C-w>q` or `:{count}q[uit][!]` closes the current window, exiting vim if it was
+- `<C-w>q` or `:[count]q[uit][!]` closes the current window, exiting vim if it was
   the last non-help/preview window. Will not close the last window (or the
   last window for a buffer with 'hidden' unset) if it has changes, ! overrides
   this, discarding changes.
-- `<C-w>c` or `:{count}clo[se][!]` closes the current window. Will not close the
+- `<C-w>c` or `:[count]clo[se][!]` closes the current window. Will not close the
   last window, and will not close the last window for a buffer if it has
   changes and 'hidden' is unset. ! makes the command act as if 'hidden' was
   set.
-- `:{count}hid[e]` closes the current window, acting as if 'hidden' was set.
+- `:[count]hid[e]` closes the current window, acting as if 'hidden' was set.
 - `:hid[e] {cmd}` executes {cmd} as if 'hidden' was set.
-- `<C-w>o` or `:{count}on[ly][!]` makes the current window the only one on screen,
+- `<C-w>o` or `:[count]on[ly][!]` makes the current window the only one on screen,
   closing all others. If 'hidden' is unset, doesn't close windows with
   changes. ! overrides this, making them hidden.
 - `[count]fc[lose][!]` closes the [count] highest floating windows. ! closes all
   floating windows.
-- For window closing commands, {count} optionally defines the window to close:
+- For window closing commands, [count] optionally defines the window to close:
   - A number closes that window, with 1 being the first.
   - $ closes the last window.
   - +N and -N close the Nth next and Nth previous windows.
 
+Moving between windows can be done in the following ways:
+- `<C-w>h/j/k/l` or `<C-h/j/k/l>` (user mappings) move the cursor between
+  windows like the `h`, `j`, `k`, and `l` keys. Prefixing them with [count]
+  moves [count] windows in that direction.
+- `<C-w>w` moves the custor to the next |focusable| window to below/to the
+  right of the current one (with that priority), if there is none, loops to
+  the top-left window. `<C-w>W` goes in the opposite direction. Prefixing with
+  [count] makes both go the the [count]th window in the cycle.
+- `<C-w>t` and `<C-w>b` move the cursor to the top-left and bottom-right
+  windows respectively.
+- `<C-w>p` moves the cursor to the last accessed window (similar to `<C-6>`).
 
+Windows can be rearranged in the following ways:
+- `<C-w>r` rotates windows downwards/rightwards on their row/column, looping the
+  start/end. `<C-w>R` rotates in the opposite direction. Rotates within the
+  row/column the current window is in and will not rotate if another
+  perpendicular split exists in the row/column.
+- `<C-w>x` switches the current window with the next, placing the cursor in
+  the other. Switching is only done in the row/column of the current window.
+  Prefixing with [count] switches with the [count]th window.
+- `<C-w>H/J/K/L` move the current window to the left/bottom/top/right of the
+  screen, taking up the full width/height.
+- The row/column a window is in is determined by the last type of split
+  applied to it.
+
+Windows can be resized in the following ways:
+- `<C-w>+/-` or `:res[ize] +/-N` resize the current window vertically, with +
+  increasing the height and - decreasing it.
+- `<C-w>>/<` or `:vert[ical] res[ize] +/-N` resize the current window
+  horizontally, with >/+ increasing the width and </- decreasing it.
+- `<C-Up/Down/Left/Right>` (user mappings) can be used in place of the previous
+  mappings to resize windows, resizing by 2 * [count].
+- `<C-w>_` or `:res[ize] [N]` resize the current window to a specific height
+  based on [count]/[N], defaulting to the maximum possible.
+- `<C-w>|` or `:vert[ical] res[ize] [N]` resize the current window to a
+  specific width based on [count]/[N], defaulting to the maximum possible.
+- `z{N}<CR>` resizes the current window to height {N}.
+- `:res[ize]` can be prefixed with [count], similarly to window closing
+  commands, to resize a specific window.
+- `<C-w>=` resizes all windows to be equally large.
+  - If executed as `:winc[md] =`, it can be prefixed with `:hor[izontal]` or
+    `:vert[ical]` to only equalize on that axis.
 
 `|============|`
  `1.2b Buffers`                                                     *user.buffers*
