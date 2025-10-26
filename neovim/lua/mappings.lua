@@ -8,9 +8,12 @@ map({"n", "v"}, "<down>", "<Nop>", { silent = true, noremap = true })
 
 -- Smart 'dd'.
 map("n", "dd", function()
-  if vim.api.nvim_get_current_line():match("^%s*$") then
-    return "\"_dd"
-  else return "dd" end
+  local pos = vim.api.nvim_win_get_cursor(0)[1] - 1
+  local lines = vim.api.nvim_buf_get_lines(0, pos, pos + vim.v.count1, false)
+  for _, l in ipairs(lines) do
+    if not l:match("^%s*$") then return "dd" end
+  end
+  return "\"_dd"
 end, { expr = true })
 
 -- Coq/autopairs mappings.
