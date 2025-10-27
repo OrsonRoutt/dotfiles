@@ -25,11 +25,14 @@ vim.api.nvim_set_keymap("i", "<down>", [[pumvisible() ? "<C-e><down>" : "<down>"
 vim.api.nvim_set_keymap("i", "<CR>", "v:lua.user.CR()", { expr = true, noremap = true })
 vim.api.nvim_set_keymap("i", "<BS>", "v:lua.user.BS()", { expr = true, noremap = true })
 
+-- LSP mappings.
+map("n", "grd", vim.lsp.buf.definition, { desc = "vim.lsp.buf.definition()" })
+map("n", "grD", vim.lsp.buf.declaration, { desc = "vim.lsp.buf.declaration()" })
+map("n", "grn", require("scripts.lsp_rename"), { desc = "lsp rename" })
+
 -- Oil mappings.
 map("n", "-", "<cmd>Oil<CR>", { desc = "oil open parent directory" })
-map("n", "+", function()
-  return "<cmd>Oil " .. vim.fn.getcwd() .. "<CR>"
-end, { expr = true, desc = "oil open current working directory" })
+map("n", "+", function() return "<cmd>Oil " .. vim.fn.getcwd() .. "<CR>" end, { expr = true, desc = "oil open current working directory" })
 
 -- Toggle mouse.
 map("n", "<leader>M", function()
@@ -131,16 +134,18 @@ map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "telescope find bu
 map("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "telescope help page" })
 map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "telescope find oldfiles" })
 map("n", "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "telescope find in current buffer" })
-map("n", "<leader>fr", "<cmd>Telescope lsp_references<CR>", { desc = "telescope find references" })
-map("n", "<leader>fs", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "telescope find symbols in buffer" })
-map("n", "<leader>fS", "<cmd>Telescope lsp_workspace_symbols<CR>", { desc = "telescope find symbols in workspace" })
-map("n", "<leader>fd", "<cmd>Telescope lsp_definitions<CR>", { desc = "telescope find definitions" })
-map("n", "<leader>ft", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "telescope find type definitions" })
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
 map("n", "<leader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>", { desc = "telescope find all files" })
 map("n", "<leader>fm", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" })
 map("n", "<leader>fH", "<cmd>Telescope highlights<CR>", { desc = "telescope find highlights" })
 map("n", "<leader>fB", "<cmd>Telescope builtin<CR>", { desc = "telescope find builtins" })
+
+map("n", "<leader>fr", "<cmd>Telescope lsp_references<CR>", { desc = "telescope find references" })
+map("n", "<leader>fd", "<cmd>Telescope lsp_definitions<CR>", { desc = "telescope find definitions" })
+map("n", "<leader>fi", "<cmd>Telescope lsp_implementations<CR>", { desc = "telescope find implementations" })
+map("n", "<leader>fs", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "telescope find symbols in buffer" })
+map("n", "<leader>ft", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "telescope find type definitions" })
+map("n", "<leader>fS", "<cmd>Telescope lsp_workspace_symbols<CR>", { desc = "telescope find symbols in workspace" })
 
 map("n", "<leader>fg", "<cmd>Telescope grapple tags<CR>", { desc = "telescope find grapple tags" })
 

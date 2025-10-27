@@ -1,15 +1,6 @@
 local map = vim.keymap.set
 
-local function on_attach(_, bufnr)
-  local function opts(desc)
-    return { buffer = bufnr, desc = "LSP " .. desc }
-  end
-
-  map("n", "gD", vim.lsp.buf.declaration, opts("go to declaration"))
-  map("n", "gd", vim.lsp.buf.definition, opts("go to definition"))
-  map("n", "<leader>D", vim.lsp.buf.type_definition, opts("go to type definition"))
-  map("n", "<leader>ra", require("scripts.lsp_rename"), opts("rename"))
-end
+local function on_attach(_, _) end
 
 local function on_init(client, _)
   if client.supports_method "textDocument/semanticTokens" then
@@ -33,6 +24,23 @@ for _, lsp in ipairs({"gdscript", "sqls", "phpactor"}) do
   })
   vim.lsp.enable(lsp)
 end
+
+-- pylsp
+vim.lsp.config("pylsp", {
+  on_attach = on_attach,
+  on_init = on_init,
+  capabilities = capabilities,
+  settings = {
+    pylsp = {
+      plugins = {
+        pylint = { enabled = false },
+        pyflakes = { enabled = false },
+        pycodestyle = { enabled = false },
+      }
+    }
+  },
+})
+vim.lsp.enable("pylsp")
 
 -- clangd
 vim.lsp.config("clangd", {
