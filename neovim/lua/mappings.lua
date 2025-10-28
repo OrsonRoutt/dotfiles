@@ -138,6 +138,7 @@ map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find
 map("n", "<leader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>", { desc = "telescope find all files" })
 map("n", "<leader>fm", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" })
 map("n", "<leader>fH", "<cmd>Telescope highlights<CR>", { desc = "telescope find highlights" })
+map("n", "<leader>fg", "<cmd>Telescope grep_string<CR>", { desc = "telescope grep string" })
 map("n", "<leader>fB", "<cmd>Telescope builtin<CR>", { desc = "telescope find builtins" })
 
 map("n", "<leader>fr", "<cmd>Telescope lsp_references<CR>", { desc = "telescope find references" })
@@ -147,7 +148,7 @@ map("n", "<leader>fs", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "tele
 map("n", "<leader>ft", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "telescope find type definitions" })
 map("n", "<leader>fS", "<cmd>Telescope lsp_workspace_symbols<CR>", { desc = "telescope find symbols in workspace" })
 
-map("n", "<leader>fg", "<cmd>Telescope grapple tags<CR>", { desc = "telescope find grapple tags" })
+map("n", "<leader>fG", "<cmd>Telescope grapple tags<CR>", { desc = "telescope find grapple tags" })
 
 map("n", "<leader>fT", "<cmd>Telescope terms<CR>", { desc = "telescope find terminals" })
 map("n", "<leader>fp", "<cmd>Telescope projects<CR>", { desc = "telescope find projects" })
@@ -225,15 +226,12 @@ map("n", "<leader>go", function() require("scripts.gitopen").gitopen() end, { de
 map("n", "<leader>h", function()
   require("scripts.term").new_split({ split = "below", height = 0.3 })
 end, { desc = "terminal new horizontal term" })
-
 map("n", "<A-h>", function()
   require("scripts.term").tggl_split({ id = vim.v.count1, toggle = { "<A-h>", "<A-H>" }, split = "below", height = 0.3 })
 end, { desc = "terminal toggle horizontal term" })
-
 map("n", "<A-H>", function()
   require("scripts.term").tggl_split({ id = vim.v.count1, toggle = { "<A-h>", "<A-H>" }, split = "below", height = 0.3, topl = true })
 end, { desc = "terminal toggle toplevel horizontal term" })
-
 map("n", "<A-i>", function()
   local id = vim.v.count == 0 and 2 or vim.v.count
   require("scripts.term").tggl_float({ id = id, width = 0.9, height = 0.8, toggle = "<A-i>" })
