@@ -45,22 +45,35 @@ local function create_float(buf, opts)
 end
 
 local function create_split(buf, opts)
-  local win = vim.api.nvim_get_current_win()
+  local win = opts.topl ~= nil and -1 or 0
   local win_opts = {
     win = win,
     split = opts.split,
   }
-  if opts.height ~= nil then win_opts.height = math.ceil(opts.height * vim.api.nvim_win_get_height(win)) end
-  if opts.width ~= nil then win_opts.width = math.ceil(opts.width * vim.api.nvim_win_get_width(win)) end
+  if opts.height ~= nil then
+    if win == -1 then
+      local height = vim.o.lines - tabline_height() - bottom_height()
+      win_opts.height = math.ceil(opts.height * height)
+    else
+      win_opts.height = math.ceil(opts.height * vim.api.nvim_win_get_height(win))
+    end
+  end
+  if opts.width ~= nil then
+    if win == -1 then
+      win_opts.width = math.ceil(opts.width * vim.o.columns)
+    else
+      win_opts.width = math.ceil(opts.width * vim.api.nvim_win_get_width(win))
+    end
+  end
   vim.api.nvim_open_win(buf, true, win_opts)
 end
 
 M.new_split = function(opts)
   local buf = vim.api.nvim_create_buf(false, true)
   create_split(buf, opts)
-  vim.cmd("startinsert")
+  vim.cmd("star")
   vim.fn.jobstart(vim.o.shell, { term = true })
-  vim.cmd("setlocal winhl=NormalFloat:Normal,FloatBorder:Normal")
+  vim.cmd("setl winhl=NormalFloat:Normal,FloatBorder:Normal")
 end
 
 M.tggl_split = function(opts)
@@ -72,16 +85,20 @@ M.tggl_split = function(opts)
   local win = vim.fn.bufwinid(buf)
   if win == -1 then
     create_split(buf, opts)
-    vim.cmd("startinsert")
+    vim.cmd("star")
   else
     vim.api.nvim_win_close(win, true)
   end
   if vim.bo[buf].buftype ~= "terminal" then
     vim.fn.jobstart(vim.o.shell, { term = true })
-    vim.keymap.set("t", opts.toggle, function() M.tggl_split(opts) end, { buffer = buf })
-    vim.cmd("setlocal winhl=NormalFloat:Normal,FloatBorder:Normal")
+    if opts.toggle ~= nil then
+      for _, v in ipairs(opts.toggle) do
+        vim.keymap.set("t", v, function() M.tggl_split(opts) end, { buffer = buf })
+      end
+    end
+    vim.keymap.set("t", "<C-c>", function() M.tggl_split(opts) end, { buffer = buf })
+    vim.cmd("setl winhl=NormalFloat:Normal,FloatBorder:Normal")
   end
-
 end
 
 M.tggl_float = function(opts)
@@ -93,14 +110,17 @@ M.tggl_float = function(opts)
   local win = vim.fn.bufwinid(buf)
   if win == -1 then
     create_float(buf, opts)
-    vim.cmd("startinsert")
+    vim.cmd("star")
   else
     vim.api.nvim_win_close(win, true)
   end
   if vim.bo[buf].buftype ~= "terminal" then
     vim.fn.jobstart(vim.o.shell, { term = true })
-    vim.keymap.set("t", opts.toggle, function() M.tggl_float(opts) end, { buffer = buf })
-    vim.cmd("setlocal winhl=NormalFloat:Normal,FloatBorder:Normal")
+    if opts.toggle ~= nil then
+      vim.keymap.set("t", opts.toggle, function() M.tggl_float(opts) end, { buffer = buf })
+    end
+    vim.keymap.set("t", "<C-c>", function() M.tggl_float(opts) end, { buffer = buf })
+    vim.cmd("setl winhl=NormalFloat:Normal,FloatBorder:Normal")
   end
 end
 
@@ -113,23 +133,23 @@ M.tggl_float_job = function(opts)
   local win = vim.fn.bufwinid(buf)
   if win == -1 then
     create_float(buf, opts)
-    vim.cmd("startinsert")
+    vim.cmd("star")
   else
     vim.api.nvim_win_close(win, true)
   end
   if vim.bo[buf].buftype ~= "terminal" then
     vim.fn.jobstart(opts.job, { term = true })
     vim.keymap.set("t", "<C-c>", function() M.tggl_float_job(opts) end, { buffer = buf })
-    vim.cmd("setlocal winhl=NormalFloat:Normal,FloatBorder:Normal")
+    vim.cmd("setl winhl=NormalFloat:Normal,FloatBorder:Normal")
   end
 end
 
 M.new_float_job = function(opts)
   local buf = vim.api.nvim_create_buf(false, true)
   create_float(buf, opts)
-  vim.cmd("startinsert")
+  vim.cmd("star")
   vim.fn.jobstart(opts.job, { term = true })
-  vim.cmd("setlocal winhl=NormalFloat:Normal,FloatBorder:Normal")
+  vim.cmd("setl winhl=NormalFloat:Normal,FloatBorder:Normal")
 end
 
 return M

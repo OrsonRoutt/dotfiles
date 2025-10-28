@@ -222,17 +222,27 @@ map("n", "<leader>gB", "<cmd>Gitsigns blame<CR>", { desc = "git blame buffer" })
 map("n", "<leader>go", function() require("scripts.gitopen").gitopen() end, { desc = "git open remote" })
 
 -- Terminal mappings.
-map("n", "<leader>h", function() require("scripts.term").new_split({ split = "below", height = 0.3 })
+map("n", "<leader>h", function()
+  require("scripts.term").new_split({ split = "below", height = 0.3 })
 end, { desc = "terminal new horizontal term" })
-map("n", "<A-h>", function() require("scripts.term").tggl_split({ id = 0, toggle = "<A-h>", split = "below", height = 0.3 })
+
+map("n", "<A-h>", function()
+  require("scripts.term").tggl_split({ id = vim.v.count1, toggle = { "<A-h>", "<A-H>" }, split = "below", height = 0.3 })
 end, { desc = "terminal toggle horizontal term" })
-map("n", "<A-i>", function() require("scripts.term").tggl_float({ id = 1, width = 0.9, height = 0.8, toggle = "<A-i>" })
+
+map("n", "<A-H>", function()
+  require("scripts.term").tggl_split({ id = vim.v.count1, toggle = { "<A-h>", "<A-H>" }, split = "below", height = 0.3, topl = true })
+end, { desc = "terminal toggle toplevel horizontal term" })
+
+map("n", "<A-i>", function()
+  local id = vim.v.count == 0 and 2 or vim.v.count
+  require("scripts.term").tggl_float({ id = id, width = 0.9, height = 0.8, toggle = "<A-i>" })
 end, { desc = "terminal toggle floating term" })
 
 -- Terminal job mappings.
 map("n", "<leader>og", function()
   require("scripts.term").tggl_float_job({
-    id = 2,
+    id = 0,
     width = 0.9,
     height = 0.8,
     job = "lazygit",
