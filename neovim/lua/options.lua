@@ -53,6 +53,8 @@ o.updatetime = 250
 
 o.history = 1000
 
+o.inccommand = "split"
+
 require("scripts.statuscol")
 vim.o.statuscolumn = "%!v:lua.get_statuscol()"
 require("scripts.statusline")
