@@ -7,6 +7,8 @@ local conf = require("telescope.config").values
 local make_entry = require("telescope.make_entry")
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
+local find_files = require("telescope.builtin").find_files
+local live_grep = require("telescope.builtin").live_grep
 
 local function get_terms()
   return vim.tbl_filter(
@@ -89,6 +91,43 @@ M.ts_projects = function(opts)
       return true
     end,
   }):find()
+end
+
+M.ts_vw_find_files = function(opts)
+  opts = opts or {}
+  local wiki = opts.i or 0
+
+  if vim.g.loaded_vimwiki == nil then
+    require("lazy").load({ plugins = { "vimwiki" } })
+  end
+
+  if wiki >= #vim.g.vimwiki_wikilocal_vars then
+    vim.notify("wiki does not exist: " .. wiki, vim.log.levels.ERROR)
+    return
+  end
+
+  opts = vim.tbl_deep_extend("keep", opts, { prompt_title = "Find Files (VimWiki #" .. wiki .. ")" })
+  opts.cwd = vim.g.vimwiki_wikilocal_vars[wiki + 1].path
+  find_files(opts)
+end
+
+
+M.ts_vw_live_grep = function(opts)
+  opts = opts or {}
+  local wiki = opts.i or 0
+
+  if vim.g.loaded_vimwiki == nil then
+    require("lazy").load({ plugins = { "vimwiki" } })
+  end
+
+  if wiki >= #vim.g.vimwiki_wikilocal_vars then
+    vim.notify("wiki does not exist: " .. wiki, vim.log.levels.ERROR)
+    return
+  end
+
+  opts = vim.tbl_deep_extend("keep", opts, { prompt_title = "Live Grep (VimWiki #" .. wiki .. ")" })
+  opts.cwd = vim.g.vimwiki_wikilocal_vars[wiki + 1].path
+  live_grep(opts)
 end
 
 return M

@@ -58,8 +58,6 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-fzf-native.nvim",
-      "ElPiloto/telescope-vimwiki.nvim",
-      "vimwiki/vimwiki",
     },
     cmd = "Telescope",
     opts = function()

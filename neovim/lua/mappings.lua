@@ -153,9 +153,12 @@ map("n", "<leader>fG", "<cmd>Telescope grapple tags<CR>", { desc = "telescope fi
 map("n", "<leader>fT", "<cmd>Telescope terms<CR>", { desc = "telescope find terminals" })
 map("n", "<leader>fp", "<cmd>Telescope projects<CR>", { desc = "telescope find projects" })
 
-map("n", "<leader>wf", "<cmd>Telescope vw<CR>", { desc = "telescope find in vimwiki" })
-map("n", "<leader>wg", "<cmd>Telescope vw live_grep<CR>", { desc = "telescope live grep in vimwiki" })
-map("n", "<leader>wl", "<cmd>Telescope vw link<CR>", { desc = "telescope live grep in vimwiki link" })
+map("n", "<leader>wf", function()
+  return "<cmd>Telescope vw find_files i=" .. vim.v.count .. "<CR>"
+end, { expr = true, desc = "telescope find in vimwiki" })
+map("n", "<leader>wg", function()
+  return "<cmd>Telescope vw live_grep i=" .. vim.v.count .. "<CR>"
+end, { expr = true, desc = "telescope live grep in vimwiki" })
 
 -- Grapple actions.
 map("n", "<leader>gt", "<cmd>Grapple toggle<CR>", { desc = "grapple toggle tag" })
