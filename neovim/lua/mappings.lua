@@ -70,6 +70,24 @@ map("v", "<", "<gv")
 -- Clear highlights.
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "clear highlights" })
 
+-- Header switch mappings.
+vim.api.nvim_create_user_command("A", function(args)
+  local path = require("scripts.a").get_header(vim.api.nvim_buf_get_name(0))
+  if path ~= nil then vim.cmd.e({ path, mods = args.smods }) end
+end, {})
+vim.api.nvim_create_user_command("AS", function(args)
+  local path = require("scripts.a").get_header(vim.api.nvim_buf_get_name(0))
+  if path ~= nil then vim.cmd.sp({ path, mods = args.smods }) end
+end, {})
+vim.api.nvim_create_user_command("AV", function(args)
+  local path = require("scripts.a").get_header(vim.api.nvim_buf_get_name(0))
+  if path ~= nil then vim.cmd.vs({ path, mods = args.smods }) end
+end, {})
+vim.api.nvim_create_user_command("AT", function(args)
+  local path = require("scripts.a").get_header(vim.api.nvim_buf_get_name(0))
+  if path ~= nil then vim.cmd.tabe({ path, mods = args.smods }) end
+end, {})
+
 -- Toggle line number/relative number.
 map("n", "<leader>n", "<cmd>set nu!<CR>", { desc = "toggle line number" })
 map("n", "<leader>rn", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
