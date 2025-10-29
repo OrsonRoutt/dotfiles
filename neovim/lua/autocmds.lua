@@ -57,7 +57,7 @@ autocmd("TermClose", {
 })
 
 -- Update statusline on LSP progress.
-autocmd("LspProgress", {
+autocmd({"LspProgress", "ModeChanged"}, {
   group = "user",
   pattern = "*",
   command = "redrawstatus",

@@ -24,6 +24,9 @@ o.backspace = "indent,eol,start"
 o.scrolloff = 10
 o.sidescrolloff = 20
 
+o.selectmode = "mouse,key"
+o.keymodel = "startsel,stopsel"
+
 o.ignorecase = true
 o.smartcase = true
 

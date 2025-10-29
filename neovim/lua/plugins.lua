@@ -110,5 +110,5 @@ return {
     dependencies = { "kevinhwang91/promise-async" },
     opts = function() return require("configs.ufo_opts") end,
     config = function(_, opts) require("ufo").setup(opts) end,
-  }
+  },
 }
