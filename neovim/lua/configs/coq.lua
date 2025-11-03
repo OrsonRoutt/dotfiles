@@ -10,11 +10,10 @@ return {
   },
   keymap = {
     recommended = false,
-    manual_complete = "None",
     bigger_preview = "None",
     jump_to_mark = "None",
   },
   completion = {
-    skip_after = {"	"," ","\n"}
+    skip_after = {" ","	","\n"}
   },
 }
