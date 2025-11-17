@@ -14,6 +14,8 @@ config.term = "wezterm"
 -- VISUALS
 -- Native MacOS fullscreen.
 config.native_macos_fullscreen_mode = true
+-- Windows WSL
+config.default_domain = "WSL:Ubuntu"
 -- Font
 local function get_font(weight, style)
   local args = {
@@ -63,7 +65,7 @@ config.window_content_alignment = {
 
 -- DATA
 local function join(...) return table.concat({...}, "/"):gsub("//+", "/") end
-local datadir = join(os.getenv("XDG_DATA_HOME") or join(os.getenv("HOME"), "/.local/share"), "/wezterm")
+local datadir = join(os.getenv("XDG_DATA_HOME") or join(os.getenv("HOME") or os.getenv("HOMEPATH"), "/.local/share"), "/wezterm")
 os.execute("mkdir -p" .. datadir)
 local data_file = join(datadir, "/data.lua")
 -- Try to load data file.
