@@ -31,7 +31,7 @@ return {
   {
     "ms-jpq/coq_nvim",
     branch = "coq",
-    dependencies = { "ms-jpq/coq.thirdparty", "windwp/nvim-autopairs" },
+    dependencies = { "windwp/nvim-autopairs" },
     init = function() vim.g.coq_settings = require("configs.coq") end,
   },
   {
