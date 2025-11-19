@@ -48,8 +48,8 @@ o.splitright = true
 o.timeoutlen = 300
 
 o.backup = false
-o.writebackup = false
-o.swapfile = false
+o.writebackup = true
+o.swapfile = true
 o.undofile = true
 
 o.updatetime = 250
