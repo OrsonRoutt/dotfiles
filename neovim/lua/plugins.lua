@@ -2,7 +2,10 @@ return {
   {
     "folke/which-key.nvim",
     lazy = false,
-    opts = function() require("scripts.theme").load_plugin_hls("whichkey") end,
+    opts = function()
+      require("scripts.theme").load_plugin_hls("whichkey")
+      return require("configs.whichkey")
+    end,
   },
   {
     "nvim-tree/nvim-web-devicons",
