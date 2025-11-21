@@ -19,9 +19,9 @@ local function try_highlight()
 end
 
 M.trim = function()
-  local pos = vim.api.nvim_win_get_cursor(0)
-  vim.cmd([[keepp %s/\s\+$//e]])
-  vim.api.nvim_win_set_cursor(0, pos)
+  local view = vim.fn.winsaveview()
+  vim.cmd([[keepj keepp %s/\s\+$//e]])
+  vim.fn.winrestview(view)
 end
 
 M.autocmds = function()
