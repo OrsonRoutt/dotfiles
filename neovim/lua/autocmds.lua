@@ -3,26 +3,6 @@ local augroup = vim.api.nvim_create_augroup
 
 augroup("user", { clear = true })
 
--- Setup 4 space tab filetypes.
-autocmd("FileType", {
-  group = "user",
-  pattern = { "gdscript", "cpp" },
-  callback = function()
-    vim.bo.sw = 4
-    vim.bo.sts = 4
-    vim.bo.ts = 4
-    vim.bo.expandtab = false
-    vim.bo.softtabstop = 4
-  end,
-})
-
--- Setup spell check filetypes.
-autocmd("FileType", {
-  group = "user",
-  pattern = { "markdown", "typst", "vimwiki" },
-  callback = function() vim.opt_local.spell = true end,
-})
-
 -- Setup help file type.
 autocmd({"BufRead", "BufNewFile"}, {
   group = "user",
