@@ -319,6 +319,7 @@ M.load_theme = function()
 
   -- Clear Theme Settings
   vim.cmd("hi clear")
+  vim.cmd("colo default")
   vim.o.background = "dark"
   if vim.fn.exists("syntax_on") then vim.cmd("syntax reset") end
   vim.o.termguicolors = true

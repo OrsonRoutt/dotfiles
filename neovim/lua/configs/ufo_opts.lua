@@ -15,6 +15,11 @@ return {
   open_fold_hl_timeout = 150,
   provider_selector = function(_, _, _) return get_selector end,
   preview = {
+    win_config = {
+      border = "none",
+      winblend = 0,
+      winhighlight = "Normal:NormalFloat",
+    },
     mappings = {
       scrollB = "",
       scrollF = "",
