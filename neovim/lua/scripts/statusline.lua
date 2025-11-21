@@ -101,6 +101,8 @@ local function get_stl_before_pos()
   local res = ""
   local encoding = vim.opt.fileencoding:get()
   if #encoding ~= 0 then res = string.upper(encoding) .. ", " end
+  local filetype = vim.opt.filetype:get()
+  if #filetype ~= 0 then res = res .. filetype .. ", " end
   res = res .. vim.opt.tabstop:get() .. (vim.opt.expandtab:get() and "S" or "T") .. " "
   local lsp = ""
   if vim.lsp and vim.o.columns > 100 then
