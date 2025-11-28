@@ -3,7 +3,7 @@ local map = vim.keymap.set
 local function on_attach(_, _) end
 
 local function on_init(client, _)
-  if client.supports_method "textDocument/semanticTokens" then
+  if client:supports_method("textDocument/semanticTokens") then
     client.server_capabilities.semanticTokensProvider = false
     client.server_capabilities.documentFormattingProvider = false
     client.server_capabilities.inlineCompletionProvider = false
