@@ -1,6 +1,13 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
+local osname
+local n = 1
+for i in string.gmatch(wezterm.target_triple, "[^-]+") do
+  if n == 3 then osname = i end
+  n = n + 1
+end
+
 -- SIMPLE FUNCTIONALITY
 -- Right Alt Compose
 config.send_composed_key_when_right_alt_is_pressed = false
@@ -13,9 +20,13 @@ config.term = "wezterm"
 
 -- VISUALS
 -- Native MacOS fullscreen.
-config.native_macos_fullscreen_mode = true
+if osname == "darwin" then
+  config.native_macos_fullscreen_mode = true
+end
 -- Windows WSL
-config.default_domain = "WSL:Ubuntu"
+if osname == "windows" then
+  config.default_domain = "WSL:Ubuntu"
+end
 -- Font
 local function get_font(weight, style)
   local args = {
@@ -65,7 +76,7 @@ config.window_content_alignment = {
 
 -- DATA
 local function join(...) return table.concat({...}, "/"):gsub("//+", "/") end
-local datadir = join(os.getenv("XDG_DATA_HOME") or join(os.getenv("HOME") or os.getenv("HOMEPATH"), "/.local/share"), "/wezterm")
+local datadir = join(os.getenv("XDG_DATA_HOME") or join((osname == "windows") and os.getenv("HOMEPATH") or os.getenv("HOME"), "/.local/share"), "/wezterm")
 os.execute("mkdir -p" .. datadir)
 local data_file = join(datadir, "/data.lua")
 -- Try to load data file.

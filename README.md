@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains my personal dotfiles which I use on MacOS, Linux, and Windows w/WSL. These largely include configuration for terminal utilities based around NeoVim.
+This repository contains my personal dotfiles which I use on MacOS, and Windows w/WSL Ubuntu. These largely include configuration for terminal utilities based around NeoVim.
 
 My workflow is based around a single Wezterm window per project with a single NeoVim instance running, doing most of my work inside NeoVim.
 
