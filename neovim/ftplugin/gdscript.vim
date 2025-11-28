@@ -1,7 +1,7 @@
-if exists("b:did_ftplugin")
+if exists("b:user_ftplugin")
   finish
 endif
-let b:did_ftplugin = 1
+let b:user_ftplugin = 1
 
 setl sw=4
 setl ts=4
