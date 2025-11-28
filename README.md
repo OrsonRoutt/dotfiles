@@ -48,6 +48,7 @@ For a shell I use Fish. Installation instructions are on its website: https://fi
 I use NeoVim as a text editor and general development tool. I am currently using a minimum of NeoVim v0.11.3. On some platforms this can be annoying to install: https://github.com/neovim/neovim/blob/master/INSTALL.md
 
 `telescope.nvim` requires ripgrep to use 'live grep', etc.: https://github.com/BurntSushi/ripgrep/blob/master/README.md#installation
+- You can also install fd for it to use: https://github.com/sharkdp/fd?tab=readme-ov-file#installation
 
 #### Lazygit
 
