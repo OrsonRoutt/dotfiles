@@ -153,6 +153,9 @@ map("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "telescope help 
 map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "telescope find oldfiles" })
 map("n", "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "telescope find in current buffer" })
 map("n", "<leader>ff", function()
+  if vim.fn.getcwd(0) == vim.fn.getenv("HOME") then
+    if vim.fn.confirm("Search ~500,000 files, moron?", "&No\n&Yes") == 1 then return end
+  end
   require("telescope.builtin").find_files({ hidden = true, file_ignore_patterns = { "^%.git/", "/%.git/" }})
 end, { desc = "telescope find files" })
 map("n", "<leader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>", { desc = "telescope find all files" })
