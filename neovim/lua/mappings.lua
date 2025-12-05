@@ -112,31 +112,20 @@ map("n", "<leader>j", "<cmd>bn<CR>", { desc = "buffer next" })
 map("n", "<leader>k", "<cmd>bp<CR>", { desc = "buffer previous" })
 
 -- Quickfix/loclist mappings.
+map("n", "<leader>q", function() require("quicker").toggle({ focus = true }) end, { desc = "qflist toggle" })
+map("n", "<leader>l", function() require("quicker").toggle({ loclist = true, focus = true }) end, { desc = "loclist toggle" })
 map("n", "<M-j>", function()
   if vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 then vim.cmd("lne")
   else vim.cmd("cn") end
-end, { desc = "quickfix/loclist goto next" })
+end, { desc = "qflist/loclist goto next" })
 map("n", "<M-k>", function()
   if vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 then vim.cmd("lp")
   else vim.cmd("cp") end
-end, { desc = "quickfix/loclist goto prev" })
-map("n", "<M-J>", function()
-  if vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 then vim.cmd("lla")
-  else vim.cmd("cla") end
-end, { desc = "quickfix/loclist goto last" })
-map("n", "<M-K>", function()
-  if vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 then vim.cmd("lfir")
-  else vim.cmd("cfir") end
-end, { desc = "quickfix/loclist goto first" })
-map("n", "<M-q>", function()
-  if vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 then vim.cmd("lcl")
-  else vim.cmd("ccl") end
-end, { desc = "quickfix/loclist close" })
-map("n", "<M-o>", "<cmd>cope<CR>", { desc = "quickfix open" })
-map("n", "<M-O>", "<cmd>lop<CR>", { desc = "loclist open" })
+end, { desc = "qflist/loclist goto prev" })
 
 -- Diagnostic mappings.
-map("n", "<leader>ds", vim.diagnostic.setloclist, { desc = "diagnostic set loclist" })
+map("n", "<leader>dl", vim.diagnostic.setloclist, { desc = "diagnostic set loclist" })
+map("n", "<leader>dq", vim.diagnostic.setqflist, { desc = "diagnostic set qflist" })
 map("n", "<leader>df", function() vim.diagnostic.open_float({ focusable = true }) end, { desc = "diagnostic open float" })
 
 -- Ufo mappings.
