@@ -17,6 +17,11 @@ autocmd({"BufRead", "BufNewFile"}, {
   callback = function() vim.bo.filetype = "vimwiki" end,
 })
 
+-- Stop comments continuing on <CR> and o/O.
+autocmd("FileType", {
+  callback = function() vim.opt_local.formatoptions:remove({"r", "o"}) end,
+})
+
 -- Yank highlight.
 autocmd("TextYankPost", {
   group = "user",
