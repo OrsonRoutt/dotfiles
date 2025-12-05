@@ -8,12 +8,8 @@ return {
     end,
   },
   {
-    "nvim-tree/nvim-web-devicons",
-    lazy = false,
-  },
-  {
     "lukas-reineke/indent-blankline.nvim",
-    event = "User FilePost",
+    event = { "BufReadPost", "BufNewFile" },
     opts = function()
       require("scripts.theme").load_plugin_hls("ibl")
       return require("configs.ibl_opts")
@@ -75,21 +71,21 @@ return {
   {
     "cbochs/grapple.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
+    event = { "BufReadPost", "BufNewFile" },
+    cmd = "Grapple",
     opts = function()
       vim.g.grapple = true
       return require("configs.grapple_opts")
     end,
-    event = { "BufReadPost", "BufNewFile" },
-    cmd = "Grapple",
   },
   {
     "chomosuke/typst-preview.nvim",
-    opts = require("configs.typst-preview"),
     cmd = { "TypstPreviewUpdate", "TypstPreview", "TypstPreviewStop", "TypstPreviewToggle" },
+    opts = require("configs.typst-preview"),
   },
   {
     "lewis6991/gitsigns.nvim",
-    event = "User FilePost",
+    event = { "BufReadPost", "BufNewFile" },
     cmd = "Gitsigns",
     opts = function() return require("configs.gitsigns") end,
   },
