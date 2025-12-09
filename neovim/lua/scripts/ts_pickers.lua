@@ -130,4 +130,48 @@ M.ts_vw_live_grep = function(opts)
   live_grep(opts)
 end
 
+M.ts_sessions = function(opts)
+  opts = opts or {}
+
+  local s = require("scripts.sessions")
+
+  local sessions = {}
+  local n = 1
+  for _, v in ipairs(s.get_sessions()) do
+    sessions[n] = { v, vim.fn.fnamemodify(v, ":t:r") }
+    n = n + 1
+  end
+  table.sort(sessions, function(a, b) return a[2] > b[2] end)
+
+  pickers.new(opts, {
+    prompt_title = "Sessions",
+    finder = finders.new_table {
+      results = sessions,
+      entry_maker = function(e)
+        return {
+          path = e[1],
+          display = e[2],
+          ordinal = e[1],
+        }
+      end,
+    },
+    previewer = conf.file_previewer(opts),
+    sorter = conf.generic_sorter(opts),
+    attach_mappings = function(prompt_bufnr, map)
+      actions.select_default:replace(function()
+        actions.close(prompt_bufnr)
+        local sel = action_state.get_selected_entry()
+        s.load_session(sel.display)
+      end)
+      map({ "i", "n" }, "<M-d>", function()
+        local current_picker = action_state.get_current_picker(prompt_bufnr)
+        current_picker:delete_selection(function(sel)
+          return s.del_session(sel.display)
+        end)
+      end)
+      return true
+    end,
+  }):find()
+end
+
 return M

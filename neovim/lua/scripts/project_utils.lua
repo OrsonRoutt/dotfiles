@@ -18,7 +18,7 @@ M.load_project = function(name)
     vim.notify("project does not exist: '"  .. name .. "'", vim.log.levels.ERROR)
     return
   end
-  if project[1] then vim.cmd("cd " .. project[1]) end
+  if project[1] then vim.cmd("tcd " .. project[1]) end
   if project[3] then vim.cmd("e " .. project[3]) end
   project[4] = os.time()
   if project[5] then require("grapple").use_scope(project[5]) end

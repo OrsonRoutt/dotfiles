@@ -4,6 +4,7 @@ telescope.load_extension("fzf")
 telescope.load_extension("vw")
 telescope.load_extension("terms")
 telescope.load_extension("projects")
+telescope.load_extension("sessions")
 
 return {
   defaults = {

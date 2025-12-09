@@ -164,6 +164,7 @@ map("n", "<leader>fG", "<cmd>Telescope grapple tags<CR>", { desc = "telescope fi
 
 map("n", "<leader>fT", "<cmd>Telescope terms<CR>", { desc = "telescope find terminals" })
 map("n", "<leader>fp", "<cmd>Telescope projects<CR>", { desc = "telescope find projects" })
+map("n", "<leader>fW", "<cmd>Telescope sessions<CR>", { desc = "telescope find sessions" })
 
 map("n", "<leader>wf", function()
   return "<cmd>Telescope vw find_files i=" .. vim.v.count .. "<CR>"
@@ -227,6 +228,21 @@ vim.api.nvim_create_user_command("Project", function(args)
   local p = require("scripts.project_utils")
   if not p.load_projects() then return end
   p.load_project(args.fargs[1])
+end, { nargs = 1 })
+
+-- Sessions mappings.
+vim.api.nvim_create_user_command("SessionSave", function(args)
+  require("scripts.sessions").save_session(args.fargs[1])
+end, { nargs = 1 })
+vim.api.nvim_create_user_command("SessionLoad", function(args)
+  if not require("scripts.sessions").load_session(args.fargs[1]) then
+    vim.notify("session file does not exist: '" .. args.fargs[1] .. "'", vim.log.levels.ERROR)
+  end
+end, { nargs = 1 })
+vim.api.nvim_create_user_command("SessionDel", function(args)
+  if not require("scripts.sessions").del_session(args.fargs[1]) then
+    vim.notify("session file could not be deleted: '" .. args.fargs[1] .. "'", vim.log.levels.ERROR)
+  end
 end, { nargs = 1 })
 
 -- Gitsigns mappings.

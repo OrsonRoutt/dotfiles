@@ -58,6 +58,8 @@ o.history = 1000
 
 o.inccommand = "split"
 
+o.sessionoptions = "buffers,curdir,folds,help,winsize"
+
 require("scripts.statuscol")
 vim.o.statuscolumn = "%!v:lua.get_statuscol()"
 require("scripts.statusline")
@@ -69,6 +71,8 @@ vim.diagnostic.config({
 })
 
 g.projects_file = vim.fn.stdpath("data") .. "/projects.lua"
+g.sessions_dir = vim.fn.stdpath("state") .. "/sessions/"
+require("scripts.sessions").init()
 
 g.qf_disable_statusline = 1
 
