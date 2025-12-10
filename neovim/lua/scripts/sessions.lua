@@ -35,6 +35,7 @@ end
 -- Sets `vim.t.session` to a session name.
 M.set_session = function(name)
   vim.t.session = name
+  vim.cmd("redrawt")
 end
 
 -- Saves the current session in `vim.t.session`.

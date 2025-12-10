@@ -60,10 +60,14 @@ o.inccommand = "split"
 
 o.sessionoptions = "buffers,curdir,folds,help,winsize"
 
+o.showtabline = 2
+
 require("scripts.statuscol")
 vim.o.statuscolumn = "%!v:lua.get_statuscol()"
 require("scripts.statusline")
 vim.o.statusline = "%!v:lua.get_statusline()"
+require("scripts.tabline")
+vim.o.tabline = "%!v:lua.get_tabline()"
 
 vim.diagnostic.config({
   signs = false,

@@ -1,0 +1,14 @@
+_G.get_tabline = function()
+  local str = ""
+  local tab = vim.fn.tabpagenr()
+  if tab ~= 1 then str = str .. "%#TabLine#" end
+  for i=1,vim.fn.tabpagenr("$") do
+    if i == tab then str = str .. "%#TabLineSel#" end
+    local s, sess = pcall(vim.api.nvim_tabpage_get_var, i, "session")
+    if s then str = str .. "[" .. sess .. "]"
+    else str = str .. vim.fn.fnamemodify(vim.fn.getcwd(0, i), ":~:t") end
+    str = str .. " "
+    if i == tab then str = str .. "%#TabLine#" end
+  end
+  return str
+end

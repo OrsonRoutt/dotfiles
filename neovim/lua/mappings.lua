@@ -254,6 +254,14 @@ map("n", "<leader>ss", function()
     vim.notify("saved current session: '" .. vim.t.session .. "'", vim.log.levels.INFO)
   else vim.notify("session to save not set", vim.log.levels.ERROR) end
 end, { desc = "session save current" })
+map("n", "<leader>sc", function()
+  if require("scripts.sessions").save_current() then
+    vim.notify("saved current session: '" .. vim.t.session .. "'", vim.log.levels.INFO)
+  else vim.notify("session to save not set", vim.log.levels.WARN) end
+  if vim.fn.tabpagenr("$") <= 1 then
+    vim.cmd("qa")
+  else vim.cmd("tabc") end
+end, { desc = "session save/close current" })
 
 -- Gitsigns mappings.
 map("n", "<leader>gb", "<cmd>Gitsigns blame_line<CR>", { desc = "git line blame" })
