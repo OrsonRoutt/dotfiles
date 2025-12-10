@@ -233,17 +233,27 @@ end, { nargs = 1 })
 -- Sessions mappings.
 vim.api.nvim_create_user_command("SessionSave", function(args)
   require("scripts.sessions").save_session(args.fargs[1])
+  vim.notify("saved session: '" .. args.fargs[1] .. "'", vim.log.levels.INFO)
 end, { nargs = 1 })
 vim.api.nvim_create_user_command("SessionLoad", function(args)
-  if not require("scripts.sessions").load_session(args.fargs[1]) then
-    vim.notify("session file does not exist: '" .. args.fargs[1] .. "'", vim.log.levels.ERROR)
-  end
+  if require("scripts.sessions").load_session(args.fargs[1]) then
+    vim.notify("loaded session: '" .. args.fargs[1] .. "'", vim.log.levels.INFO)
+  else vim.notify("session file does not exist: '" .. args.fargs[1] .. "'", vim.log.levels.ERROR) end
 end, { nargs = 1 })
 vim.api.nvim_create_user_command("SessionDel", function(args)
-  if not require("scripts.sessions").del_session(args.fargs[1]) then
-    vim.notify("session file could not be deleted: '" .. args.fargs[1] .. "'", vim.log.levels.ERROR)
-  end
+  if require("scripts.sessions").del_session(args.fargs[1]) then
+    vim.notify("deleted session: '" .. args.fargs[1] .. "'", vim.log.levels.INFO)
+  else vim.notify("session file could not be deleted: '" .. args.fargs[1] .. "'", vim.log.levels.ERROR) end
 end, { nargs = 1 })
+vim.api.nvim_create_user_command("Session", function(args)
+  require("scripts.sessions").set_session(args.fargs[1])
+  vim.notify("set current session to: '" .. args.fargs[1] .. "'", vim.log.levels.INFO)
+end, { nargs = 1 })
+map("n", "<leader>ss", function()
+  if require("scripts.sessions").save_current() then
+    vim.notify("saved current session: '" .. vim.t.session .. "'", vim.log.levels.INFO)
+  else vim.notify("session to save not set", vim.log.levels.ERROR) end
+end, { desc = "session save current" })
 
 -- Gitsigns mappings.
 map("n", "<leader>gb", "<cmd>Gitsigns blame_line<CR>", { desc = "git line blame" })

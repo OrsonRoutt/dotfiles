@@ -19,6 +19,7 @@ autocmd({"BufRead", "BufNewFile"}, {
 
 -- Stop comments continuing on <CR> and o/O.
 autocmd("FileType", {
+  group = "user",
   callback = function() vim.opt_local.formatoptions:remove({"r", "o"}) end,
 })
 
