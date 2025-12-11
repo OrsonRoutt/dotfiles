@@ -20,6 +20,7 @@ o.smartindent = true
 o.tabstop = 2
 o.softtabstop = 2
 o.backspace = "indent,eol,start"
+o.breakindent = true
 
 o.scrolloff = 10
 o.sidescrolloff = 20
@@ -41,6 +42,8 @@ o.shortmess = "aoOtTIF"
 
 o.signcolumn = "yes:1"
 
+o.colorcolumn = "+1"
+
 o.splitkeep = "screen"
 o.splitbelow = true
 o.splitright = true
@@ -57,6 +60,8 @@ o.updatetime = 250
 o.history = 1000
 
 o.inccommand = "split"
+
+o.virtualedit = "block"
 
 o.sessionoptions = "buffers,folds,help,winsize"
 
