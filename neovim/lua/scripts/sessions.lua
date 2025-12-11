@@ -11,19 +11,19 @@ M.save_session = function(name)
   vim.cmd("mks! " .. path)
   local file = io.open(path, "a")
   if file == nil then return end
+  file:write("tcd " .. vim.fn.fnamemodify(vim.fn.getcwd(),":~") .. "\n")
   if vim.t.session ~= nil then file:write("let t:session=\"" .. vim.t.session .. "\"\n") end
-  if vim.t.grapple_scope ~= nil then
-    file:write("let t:grapple_scope=\"" .. vim.t.grapple_scope .. "\"\n")
-  end
+  if vim.t.grapple_scope ~= nil then file:write("let t:grapple_scope=\"" .. vim.t.grapple_scope .. "\"\n") end
   file:close()
 end
 
--- Load a session by name. Sets `vim.t.session` to the name.
+-- Load a session by name.
 M.load_session = function(name)
   local path = vim.g.sessions_dir .. name .. ".vim"
   if vim.fn.filereadable(path) ~= 0 then
     vim.cmd("so " .. path)
     if vim.t.grapple_scope then require("grapple").use_scope(vim.t.grapple_scope, { notify = false }) end
+    (vim.uv or vim.loop).fs_utime(path, nil, "now")
     return true
   else
     return false

@@ -135,13 +135,15 @@ M.ts_sessions = function(opts)
 
   local s = require("scripts.sessions")
 
+  local fs = vim.uv or vim.loop
   local sessions = {}
   local n = 1
   for _, v in ipairs(s.get_sessions()) do
-    sessions[n] = { v, vim.fn.fnamemodify(v, ":t:r") }
+    local stat = fs.fs_stat(v)
+    sessions[n] = { v, vim.fn.fnamemodify(v, ":t:r"), stat ~= nil and stat.mtime.sec or 0 }
     n = n + 1
   end
-  table.sort(sessions, function(a, b) return a[2] > b[2] end)
+  table.sort(sessions, function(a, b) return a[3] > b[3] end)
 
   pickers.new(opts, {
     prompt_title = "Sessions",
@@ -151,7 +153,7 @@ M.ts_sessions = function(opts)
         return {
           path = e[1],
           display = e[2],
-          ordinal = e[1],
+          ordinal = e[2],
         }
       end,
     },
@@ -160,6 +162,13 @@ M.ts_sessions = function(opts)
     attach_mappings = function(prompt_bufnr, map)
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)
+        local sel = action_state.get_selected_entry()
+        s.load_session(sel.display)
+      end)
+      actions.select_tab:replace(function()
+        actions.close(prompt_bufnr)
+        vim.cmd("tabe")
+        vim.cmd("tabn $")
         local sel = action_state.get_selected_entry()
         s.load_session(sel.display)
       end)

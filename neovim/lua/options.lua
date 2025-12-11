@@ -58,7 +58,7 @@ o.history = 1000
 
 o.inccommand = "split"
 
-o.sessionoptions = "buffers,curdir,folds,help,winsize"
+o.sessionoptions = "buffers,folds,help,winsize"
 
 o.showtabline = 2
 

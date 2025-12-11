@@ -231,16 +231,17 @@ vim.api.nvim_create_user_command("Project", function(args)
 end, { nargs = 1 })
 
 -- Sessions mappings.
-vim.api.nvim_create_user_command("SessionSave", function(args)
+vim.api.nvim_create_user_command("SaveSession", function(args)
   require("scripts.sessions").save_session(args.fargs[1])
   vim.notify("saved session: '" .. args.fargs[1] .. "'", vim.log.levels.INFO)
 end, { nargs = 1 })
-vim.api.nvim_create_user_command("SessionLoad", function(args)
+vim.api.nvim_create_user_command("LoadSession", function(args)
+  if args.smods.tab ~= -1 then vim.cmd(args.smods.tab .. "tabe") end
   if require("scripts.sessions").load_session(args.fargs[1]) then
     vim.notify("loaded session: '" .. args.fargs[1] .. "'", vim.log.levels.INFO)
   else vim.notify("session file does not exist: '" .. args.fargs[1] .. "'", vim.log.levels.ERROR) end
 end, { nargs = 1 })
-vim.api.nvim_create_user_command("SessionDel", function(args)
+vim.api.nvim_create_user_command("DelSession", function(args)
   if require("scripts.sessions").del_session(args.fargs[1]) then
     vim.notify("deleted session: '" .. args.fargs[1] .. "'", vim.log.levels.INFO)
   else vim.notify("session file could not be deleted: '" .. args.fargs[1] .. "'", vim.log.levels.ERROR) end
