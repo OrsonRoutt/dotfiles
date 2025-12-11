@@ -7,7 +7,15 @@ end
 
 -- Save a session by name.
 M.save_session = function(name)
-  vim.cmd("mks! " .. vim.g.sessions_dir .. name .. ".vim")
+  local path = vim.g.sessions_dir .. name .. ".vim"
+  vim.cmd("mks! " .. path)
+  local file = io.open(path, "a")
+  if file == nil then return end
+  if vim.t.session ~= nil then file:write("let t:session=\"" .. vim.t.session .. "\"\n") end
+  if vim.t.grapple_scope ~= nil then
+    file:write("let t:grapple_scope=\"" .. vim.t.grapple_scope .. "\"\n")
+  end
+  file:close()
 end
 
 -- Load a session by name. Sets `vim.t.session` to the name.
@@ -15,7 +23,7 @@ M.load_session = function(name)
   local path = vim.g.sessions_dir .. name .. ".vim"
   if vim.fn.filereadable(path) ~= 0 then
     vim.cmd("so " .. path)
-    vim.t.session = name
+    if vim.t.grapple_scope then require("grapple").use_scope(vim.t.grapple_scope, { notify = false }) end
     return true
   else
     return false
@@ -41,7 +49,7 @@ end
 -- Saves the current session in `vim.t.session`.
 M.save_current = function()
   if vim.t.session ~= nil then
-    vim.cmd("mks! " .. vim.g.sessions_dir .. vim.t.session .. ".vim")
+    M.save_session(vim.t.session)
     return true
   end
   return false

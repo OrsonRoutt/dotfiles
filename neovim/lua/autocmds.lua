@@ -49,6 +49,23 @@ autocmd({"LspProgress", "ModeChanged"}, {
   command = "redrawstatus",
 })
 
+-- Set grapple scope tablocal on scope change.
+autocmd("User", {
+  group = "user",
+  pattern = "GrappleScopeChanged",
+  callback = function()
+    vim.t.grapple_scope = require("grapple").app().settings.scope
+  end
+})
+
+-- Update grapple scope to tablocal variable on tab entry.
+autocmd("TabEnter", {
+  group = "user",
+  callback = function()
+    if vim.t.grapple_scope then require("grapple").use_scope(vim.t.grapple_scope, { notify = false }) end
+  end,
+})
+
 -- Notify fish of cwd change on suspend.
 autocmd("VimSuspend", {
   group = "user",
