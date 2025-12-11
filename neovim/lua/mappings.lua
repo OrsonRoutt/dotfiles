@@ -221,35 +221,51 @@ end, { desc = "theme previous" })
 vim.api.nvim_create_user_command("Theme", function(args)
   if #args.fargs == 0 then vim.notify("current theme is: '" .. vim.g.theme .. "'")
   else require("scripts.theme").set_theme(args.fargs[1]) end
-end, { nargs = "?" })
+end, { nargs = "?", complete = function(_, _, _) return vim.g.themes end })
 
 -- Projects mappings.
 vim.api.nvim_create_user_command("Project", function(args)
   local p = require("scripts.project_utils")
   if not p.load_projects() then return end
   p.load_project(args.fargs[1])
-end, { nargs = 1 })
+end, { nargs = 1, complete = function(_, _, _)
+  if not require("scripts.project_utils").load_projects() then return {} end
+  local list = {}
+  local n = 1
+  for k, _ in pairs(_G.projects) do
+    list[n] = k
+    n = n + 1
+  end
+  return list
+end })
 
 -- Sessions mappings.
+local function session_comp(_, _, _)
+  local list = require("scripts.sessions").get_sessions()
+  for i=1,#list do
+    list[i] = vim.fn.fnamemodify(list[i], ":t:r")
+  end
+  return list
+end
 vim.api.nvim_create_user_command("SaveSession", function(args)
   require("scripts.sessions").save_session(args.fargs[1])
   vim.notify("saved session: '" .. args.fargs[1] .. "'", vim.log.levels.INFO)
-end, { nargs = 1 })
+end, { nargs = 1, complete = session_comp })
 vim.api.nvim_create_user_command("LoadSession", function(args)
   if args.smods.tab ~= -1 then vim.cmd(args.smods.tab .. "tabe") end
   if require("scripts.sessions").load_session(args.fargs[1]) then
     vim.notify("loaded session: '" .. args.fargs[1] .. "'", vim.log.levels.INFO)
   else vim.notify("session file does not exist: '" .. args.fargs[1] .. "'", vim.log.levels.ERROR) end
-end, { nargs = 1 })
+end, { nargs = 1, complete = session_comp })
 vim.api.nvim_create_user_command("DelSession", function(args)
   if require("scripts.sessions").del_session(args.fargs[1]) then
     vim.notify("deleted session: '" .. args.fargs[1] .. "'", vim.log.levels.INFO)
   else vim.notify("session file could not be deleted: '" .. args.fargs[1] .. "'", vim.log.levels.ERROR) end
-end, { nargs = 1 })
+end, { nargs = 1, complete = session_comp })
 vim.api.nvim_create_user_command("Session", function(args)
   require("scripts.sessions").set_session(args.fargs[1])
   vim.notify("set current session to: '" .. args.fargs[1] .. "'", vim.log.levels.INFO)
-end, { nargs = 1 })
+end, { nargs = 1, complete = session_comp })
 map("n", "<leader>ss", function()
   if require("scripts.sessions").save_current() then
     vim.notify("saved current session: '" .. vim.t.session .. "'", vim.log.levels.INFO)

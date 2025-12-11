@@ -136,12 +136,12 @@ M.ts_sessions = function(opts)
   local s = require("scripts.sessions")
 
   local fs = vim.uv or vim.loop
+  local list = s.get_sessions()
   local sessions = {}
-  local n = 1
-  for _, v in ipairs(s.get_sessions()) do
+  for i=1,#list do
+    local v = list[i]
     local stat = fs.fs_stat(v)
-    sessions[n] = { v, vim.fn.fnamemodify(v, ":t:r"), stat ~= nil and stat.mtime.sec or 0 }
-    n = n + 1
+    sessions[i] = { v, vim.fn.fnamemodify(v, ":t:r"), stat ~= nil and stat.mtime.sec or 0 }
   end
   table.sort(sessions, function(a, b) return a[3] > b[3] end)
 
