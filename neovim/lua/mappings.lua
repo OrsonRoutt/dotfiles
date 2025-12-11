@@ -225,6 +225,7 @@ end, { nargs = "?", complete = function(_, _, _) return vim.g.themes end })
 
 -- Projects mappings.
 vim.api.nvim_create_user_command("Project", function(args)
+  if args.smods.tab ~= -1 then vim.cmd(args.smods.tab .. "tabe") end
   local p = require("scripts.project_utils")
   if not p.load_projects() then return end
   p.load_project(args.fargs[1])
