@@ -32,13 +32,13 @@ map("n", "grn", require("scripts.lsp_rename"), { desc = "lsp rename" })
 
 -- Oil mappings.
 map("n", "-", "<cmd>Oil<CR>", { desc = "oil open parent directory" })
-map("n", "+", function() return "<cmd>Oil " .. vim.fn.getcwd() .. "<CR>" end, { expr = true, desc = "oil open current working directory" })
+map("n", "+", function() require("oil").open(vim.fn.getcwd()) end, { desc = "oil open current working directory" })
 
 -- Toggle mouse.
 map("n", "<leader>M", function()
   if (vim.api.nvim_get_option_value("mouse", {}) ~= "a") then
     vim.notify("enabled mouse")
-    vim.opt.mouse = "a"
+    vim.opt.mouse = "ar"
     vim.opt.mousescroll = "ver:3,hor:6"
   else
     vim.notify("disabled mouse")

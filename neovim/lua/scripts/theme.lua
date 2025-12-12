@@ -36,7 +36,7 @@ local function create_highlights(vars)
       MsgArea = { link = "Normal" },
       MsgSeparator = { link = "Normal" },
       MoreMsg = { fg = vars.ui.prompt, bg = "NONE" },
-      NonText = { fg = vars.ui.dark, bg = "NONE" },
+      NonText = { fg = vars.vim.nontext, bg = "NONE" },
       Normal = { fg = vars.ui.fg, bg = vars.ui.bg },
       NormalFloat = { fg = "NONE", bg = vars.ui.bg_alt },
       FloatBorder = { link = "NormalFloat", fg = vars.ui.sep, bg = "NONE" },
@@ -248,10 +248,6 @@ local function create_highlights(vars)
       Stl_CommandMode = { fg = vars.stl.bg, bg = vars.stl.command },
       Stl_ConfirmMode = { fg = vars.stl.bg, bg = vars.stl.confirm },
       Stl_TerminalMode = { fg = vars.stl.bg, bg = vars.stl.terminal },
-    },
-    ibl = { -- Indent Blankline
-      IblIndent = { link = "NonText" },
-      IblScope = { link = "Normal" },
     },
     whichkey = { -- WhichKey
       WhichKeyNormal = { fg = vars.ui.fg, bg = vars.ui.bg_alt },

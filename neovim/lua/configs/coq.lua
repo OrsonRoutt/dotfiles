@@ -14,6 +14,6 @@ return {
     jump_to_mark = "None",
   },
   completion = {
-    skip_after = {" ","	","\n"}
+    skip_after = {" ","\t","{","}","[","]","(",")"}
   },
 }

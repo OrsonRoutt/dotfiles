@@ -8,15 +8,6 @@ return {
     end,
   },
   {
-    "lukas-reineke/indent-blankline.nvim",
-    event = { "BufReadPost", "BufNewFile" },
-    opts = function()
-      require("scripts.theme").load_plugin_hls("ibl")
-      return require("configs.ibl_opts")
-    end,
-    config = function(_, opts) require("ibl").setup(opts) end,
-  },
-  {
     "mason-org/mason.nvim",
     cmd = { "Mason", "MasonInstall", "MasonUpdate" },
     opts = function() return require("configs.mason") end,

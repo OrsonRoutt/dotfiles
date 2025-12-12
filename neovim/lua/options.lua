@@ -14,6 +14,9 @@ o.cursorlineopt = "number"
 o.foldenable = true
 o.foldlevelstart = 99
 
+o.list = true
+o.listchars = "tab:  ┊,lead:·,trail:·,extends:…,precedes:…"
+
 o.expandtab = true
 o.shiftwidth = 2
 o.smartindent = true

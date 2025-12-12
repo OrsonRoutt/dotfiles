@@ -56,6 +56,7 @@ local vars = {
     folded = c.gray,
     folded_bg = c.dark_gray,
     special = c.red,
+    nontext = c.reference,
   },
   ui = {
     fg = c.fg,
