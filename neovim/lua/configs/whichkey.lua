@@ -5,7 +5,7 @@ require("which-key").add({
   { "<leader>g", group = "git/grapple" },
   { "<leader>o", group = "open" },
   { "<leader>s", group = "session" },
-  { "<leader>t", group = "theme" },
+  { "<leader>t", group = "tab/theme" },
   { "<leader>w", group = "vimwiki" },
 })
 

@@ -272,26 +272,32 @@ map("n", "<leader>ss", function()
     vim.notify("saved current session: '" .. vim.t.session .. "'", vim.log.levels.INFO)
   else vim.notify("session to save not set", vim.log.levels.ERROR) end
 end, { desc = "session save current" })
-map("n", "<leader>sc", function()
-  if require("scripts.sessions").save_current() then
-    vim.notify("saved current session: '" .. vim.t.session .. "'", vim.log.levels.INFO)
-  else vim.notify("session to save not set", vim.log.levels.WARN) end
+map("n", "<leader>sr", function()
+  if vim.t.session == nil then return "<cmd>restart<CR>"
+  else return "<cmd>restart LoadSession " .. vim.t.session .. "<CR>" end
+end, { expr = true, desc = "session restart" })
+map("n", "<leader>sR", function()
+  if vim.t.session == nil then return "<cmd>restart +qa!<CR>"
+  else return "<cmd>restart +qa! LoadSession " .. vim.t.session .. "<CR>" end
+end, { expr = true, desc = "session force restart" })
+
+-- Tab mappings.
+map("n", "<leader>te", function()
+  if vim.v.count == 0 then return "<cmd>tabe<CR>"
+  else return "<cmd>" .. (vim.v.count - 1) .. "tabe<CR>" end
+end, { expr = true, desc = "tab edit" })
+map("n", "<leader>tc", function()
   local tabid = vim.api.nvim_get_current_tabpage()
-  local unsaved = require("scripts.bclose").cleanup_tab()
-  if #unsaved >= 1 then
-    ---@diagnostic disable-next-line: need-check-nil
-    vim.fn.feedkeys(":bd " .. unsaved[1].bufnr .. "\n")
+  local modified = require("scripts.bclose").cleanup_tab()
+  if #modified >= 1 then vim.fn.feedkeys(":bd " .. modified[1].bufnr .. "\n")
   else
     if vim.api.nvim_get_current_tabpage() == tabid then
       if vim.fn.tabpagenr("$") <= 1 then vim.cmd("qa")
       else vim.cmd("tabc") end
     end
   end
-end, { desc = "session save/close current" })
-map("n", "<leader>sC", function()
-  if require("scripts.sessions").save_current() then
-    vim.notify("saved current session: '" .. vim.t.session .. "'", vim.log.levels.INFO)
-  else vim.notify("session to save not set", vim.log.levels.WARN) end
+end, { desc = "tab close" })
+map("n", "<leader>tC", function()
   local tabid = vim.api.nvim_get_current_tabpage()
   for _, v in ipairs(require("scripts.bclose").cleanup_tab()) do
     vim.api.nvim_buf_delete(v.bufnr, { force = true })
@@ -300,7 +306,7 @@ map("n", "<leader>sC", function()
     if vim.fn.tabpagenr("$") <= 1 then vim.cmd("qa")
     else vim.cmd("tabc") end
   end
-end, { desc = "session save/force close current" })
+end, { desc = "tab force close" })
 
 -- Gitsigns mappings.
 map("n", "<leader>gb", "<cmd>Gitsigns blame_line<CR>", { desc = "git line blame" })
