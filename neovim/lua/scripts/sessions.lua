@@ -12,13 +12,14 @@ M.save_session = function(name)
   -- Read session file and filter.
   local file = io.open(path, "r")
   if file == nil then return end
+  local cwd = vim.fn.getcwd()
   local lines = {}
   local n = 1
   for line in file:lines() do
     local _, e = line:find("^badd %+%d+ ")
     if e ~= nil then
       local p = line:sub(e + 1, -1)
-      if vim.fn.fnamemodify(p, ":.") == p then
+      if vim.fn.fnamemodify(p, ":p"):find(cwd, 1, true) ~= 1 then
         goto continue
       end
     end
@@ -35,7 +36,7 @@ M.save_session = function(name)
   -- Append extra data to session file.
   file = io.open(path, "a")
   if file == nil then return end
-  file:write("tcd " .. vim.fn.fnamemodify(vim.fn.getcwd(),":~") .. "\n")
+  file:write("tcd " .. vim.fn.fnamemodify(cwd,":~") .. "\n")
   if vim.t.session ~= nil then file:write("let t:session=\"" .. vim.t.session .. "\"\n") end
   if vim.t.grapple_scope ~= nil then file:write("let t:grapple_scope=\"" .. vim.t.grapple_scope .. "\"\n") end
   file:close()

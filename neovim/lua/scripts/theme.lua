@@ -66,6 +66,7 @@ local function create_highlights(vars)
       TabLine = { fg = vars.ui.fg, bg = vars.ui.bg },
       TabLineFill = { fg = vars.stl.bg, bg = vars.stl.bg },
       TabLineSel = { fg = vars.stl.fg, bg = vars.stl.bg_hi },
+      TabLineSelInd = { fg = vars.stl.normal, bg = vars.stl.bg_hi }, -- Custom
       Title = { fg = vars.ui.title, bg = "NONE", bold=true },
       Visual = { fg = "NONE", bg = vars.vim.visual },
       VisualNOS = { link = "Visual" },
