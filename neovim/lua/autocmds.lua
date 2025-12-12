@@ -46,7 +46,7 @@ autocmd("TermClose", {
 autocmd({"LspProgress", "ModeChanged"}, {
   group = "user",
   pattern = "*",
-  command = "redrawstatus",
+  command = "redraws",
 })
 
 -- Set grapple scope tablocal on scope change.

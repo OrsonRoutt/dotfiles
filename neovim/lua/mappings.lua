@@ -174,7 +174,7 @@ map("n", "<leader>wg", function()
 end, { expr = true, desc = "telescope live grep in vimwiki" })
 
 -- Grapple actions.
-map("n", "<leader>gt", "<cmd>Grapple toggle<CR>", { desc = "grapple toggle tag" })
+map("n", "<leader>gt", "<cmd>Grapple toggle<CR><cmd>redraws<CR>", { desc = "grapple toggle tag" })
 map("n", "<leader>gT", "<cmd>Grapple toggle_tags<CR>", { desc = "grapple toggle tags window" })
 map("n", "<leader>gn", "<cmd>Grapple cycle_tags next<CR>", { desc = "grapple cycle next tag" })
 map("n", "<leader>gp", "<cmd>Grapple cycle_tags prev<CR>", { desc = "grapple cycle previous tag" })
