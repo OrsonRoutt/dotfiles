@@ -276,10 +276,31 @@ map("n", "<leader>sc", function()
   if require("scripts.sessions").save_current() then
     vim.notify("saved current session: '" .. vim.t.session .. "'", vim.log.levels.INFO)
   else vim.notify("session to save not set", vim.log.levels.WARN) end
-  if vim.fn.tabpagenr("$") <= 1 then
-    vim.cmd("qa")
-  else vim.cmd("tabc") end
+  local tabid = vim.api.nvim_get_current_tabpage()
+  local unsaved = require("scripts.bclose").cleanup_tab()
+  if #unsaved >= 1 then
+    ---@diagnostic disable-next-line: need-check-nil
+    vim.fn.feedkeys(":bd " .. unsaved[1].bufnr .. "\n")
+  else
+    if vim.api.nvim_get_current_tabpage() == tabid then
+      if vim.fn.tabpagenr("$") <= 1 then vim.cmd("qa")
+      else vim.cmd("tabc") end
+    end
+  end
 end, { desc = "session save/close current" })
+map("n", "<leader>sC", function()
+  if require("scripts.sessions").save_current() then
+    vim.notify("saved current session: '" .. vim.t.session .. "'", vim.log.levels.INFO)
+  else vim.notify("session to save not set", vim.log.levels.WARN) end
+  local tabid = vim.api.nvim_get_current_tabpage()
+  for _, v in ipairs(require("scripts.bclose").cleanup_tab()) do
+    vim.api.nvim_buf_delete(v.bufnr, { force = true })
+  end
+  if vim.api.nvim_get_current_tabpage() == tabid then
+    if vim.fn.tabpagenr("$") <= 1 then vim.cmd("qa")
+    else vim.cmd("tabc") end
+  end
+end, { desc = "session save/force close current" })
 
 -- Gitsigns mappings.
 map("n", "<leader>gb", "<cmd>Gitsigns blame_line<CR>", { desc = "git line blame" })

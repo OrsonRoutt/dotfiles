@@ -4,6 +4,7 @@ local get_buf_opt = vim.api.nvim_get_option_value
 
 local bl_filetypes = { "lazy" }
 local bl_buftypes = { "terminal", "quickfix", "prompt" }
+local file_buftypes = { "", "help" }
 
 local function filter_bl(bufs)
   return vim.tbl_filter(function(buf)
@@ -70,6 +71,48 @@ M.delete_term = function()
   local bufs = filter_terminal(vim.fn.getbufinfo())
   del(bufs)
   vim.notify("deleted " .. #bufs .. " terminals")
+end
+
+M.cleanup_tab = function()
+  local cwd = vim.fn.getcwd()
+  local cwds = {}
+  local tab = vim.fn.tabpagenr()
+  local n = 1
+  for i=1,vim.fn.tabpagenr("$") do
+    if i ~= tab then
+      local c = vim.fn.getcwd(-1, i)
+      if c == cwd then return {} end
+      if not vim.tbl_contains(cwds, c) then
+        cwds[n] = c
+        n = n + 1
+      end
+    end
+  end
+  local bufs = vim.tbl_filter(function(buf)
+    for _, v in ipairs(buf.windows) do
+      if vim.api.nvim_tabpage_get_number(vim.api.nvim_win_get_tabpage(v)) ~= tab then
+        return false
+      end
+    end
+    if vim.tbl_contains(file_buftypes, get_buf_opt("buftype", { buf = buf.bufnr })) then
+      if buf.name:find(cwd, 1, true) == 1 then
+        for _, c in ipairs(cwds) do
+          if buf.name:find(c, 1, true) == 1 then return false end
+        end
+        return true
+      end
+    end
+    return false
+  end, vim.fn.getbufinfo())
+  local unsaved = {}
+  n = 1
+  for _, v in ipairs(bufs) do
+    if get_buf_opt("modified", { buf = v.bufnr }) then
+      unsaved[n] = v
+      n = n + 1
+    else vim.api.nvim_buf_delete(v.bufnr, { force = true }) end
+  end
+  return unsaved
 end
 
 return M

@@ -9,7 +9,31 @@ end
 M.save_session = function(name)
   local path = vim.g.sessions_dir .. name .. ".vim"
   vim.cmd("mks! " .. path)
-  local file = io.open(path, "a")
+  -- Read session file and filter.
+  local file = io.open(path, "r")
+  if file == nil then return end
+  local lines = {}
+  local n = 1
+  for line in file:lines() do
+    local _, e = line:find("^badd %+%d+ ")
+    if e ~= nil then
+      local p = line:sub(e + 1, -1)
+      if vim.fn.fnamemodify(p, ":.") == p then
+        goto continue
+      end
+    end
+    lines[n] = line
+    n = n + 1
+    ::continue::
+  end
+  file:close()
+  -- Write filtered session.
+  file = io.open(path, "w")
+  if file == nil then return end
+  file:write(table.concat(lines, "\n") .. "\n")
+  file:close()
+  -- Append extra data to session file.
+  file = io.open(path, "a")
   if file == nil then return end
   file:write("tcd " .. vim.fn.fnamemodify(vim.fn.getcwd(),":~") .. "\n")
   if vim.t.session ~= nil then file:write("let t:session=\"" .. vim.t.session .. "\"\n") end

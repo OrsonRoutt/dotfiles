@@ -63,7 +63,7 @@ o.inccommand = "split"
 
 o.virtualedit = "block"
 
-o.sessionoptions = "buffers,folds,help,winsize"
+o.sessionoptions = "blank,buffers,folds,help,winsize"
 
 o.showtabline = 2
 
