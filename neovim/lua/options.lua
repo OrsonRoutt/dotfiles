@@ -43,8 +43,6 @@ o.numberwidth = 2
 
 o.shortmess = "aoOtTIF"
 
-o.signcolumn = "yes:1"
-
 o.colorcolumn = "+1"
 
 o.splitkeep = "screen"
@@ -70,12 +68,15 @@ o.sessionoptions = "blank,buffers,folds,help,winsize"
 
 o.showtabline = 2
 
-require("scripts.statuscol")
-vim.o.statuscolumn = "%!v:lua.get_statuscol()"
+o.fillchars = "fold: ,foldopen:,foldsep: ,foldinner: ,foldclose:"
+o.signcolumn = "yes:1"
+o.foldcolumn = "1"
+o.statuscolumn = "%s%C %l "
+
 require("scripts.statusline")
-vim.o.statusline = "%!v:lua.get_statusline()"
+o.statusline = "%!v:lua.get_statusline()"
 require("scripts.tabline")
-vim.o.tabline = "%!v:lua.get_tabline()"
+o.tabline = "%!v:lua.get_tabline()"
 
 vim.diagnostic.config({
   signs = false,

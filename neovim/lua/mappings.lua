@@ -36,7 +36,7 @@ map("n", "+", function() require("oil").open(vim.fn.getcwd()) end, { desc = "oil
 
 -- Toggle mouse.
 map("n", "<leader>M", function()
-  if (vim.api.nvim_get_option_value("mouse", {}) ~= "a") then
+  if (vim.api.nvim_get_option_value("mouse", {}) == "") then
     vim.notify("enabled mouse")
     vim.opt.mouse = "ar"
     vim.opt.mousescroll = "ver:3,hor:6"
