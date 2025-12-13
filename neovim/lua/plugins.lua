@@ -41,7 +41,7 @@ return {
     "stevearc/oil.nvim",
     lazy = false,
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = function() return require("configs.oil") end,
+    opts = function() return require("configs.oil_opts") end,
   },
   {
     "nvim-telescope/telescope.nvim",

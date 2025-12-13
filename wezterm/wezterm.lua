@@ -148,12 +148,12 @@ local function write_value(name, value)
 end
 
 local function write_record(rec)
-  local n, v = next(rec, nil)
+  local k, v = next(rec, nil)
   io.write("{")
-  while n do
-    write_value(n, v)
+  while k do
+    write_value(k, v)
     io.write(",")
-    n, v = next(rec, n)
+    k, v = next(rec, k)
   end
   io.write("}")
 end

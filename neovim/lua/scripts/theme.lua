@@ -281,6 +281,8 @@ local background_hls = {
     "StatusLineNC",
     "StatusLineTerm",
     "StatusLineTermNC",
+    "TabLine",
+    "TabLineFill",
   },
   whichkey = {
     "WhichKeyNormal",
