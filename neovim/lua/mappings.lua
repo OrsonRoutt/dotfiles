@@ -273,13 +273,20 @@ map("n", "<leader>ss", function()
   else vim.notify("session to save not set", vim.log.levels.ERROR) end
 end, { desc = "session save current" })
 map("n", "<leader>sr", function()
-  if vim.t.session == nil then return "<cmd>restart<CR>"
-  else return "<cmd>restart LoadSession " .. vim.t.session .. "<CR>" end
-end, { expr = true, desc = "session restart" })
+  if not require("scripts.sessions").set_session_cache() then
+    vim.notify("couldn't write to session cache file", vim.log.levels.ERROR)
+  else vim.fn.feedkeys(":restart so " .. vim.g.session_cache_file .. "\n") end
+end, { desc = "session restart" })
 map("n", "<leader>sR", function()
-  if vim.t.session == nil then return "<cmd>restart +qa!<CR>"
-  else return "<cmd>restart +qa! LoadSession " .. vim.t.session .. "<CR>" end
+  if not require("scripts.sessions").set_session_cache() then
+    vim.notify("couldn't write to session cache file", vim.log.levels.ERROR)
+  else vim.cmd("restart +qa! so " .. vim.g.session_cache_file) end
 end, { expr = true, desc = "session force restart" })
+map("n", "<leader>sa", function()
+  local res = require("scripts.sessions").save_all()
+  if #res >= 1 then vim.notify("saved the following sessions: " .. table.concat(res, ", "))
+  else vim.notify("didn't save any sessions", vim.log.levels.WARN) end
+end, { desc = "session save all" })
 
 -- Tab mappings.
 map("n", "<leader>te", function()

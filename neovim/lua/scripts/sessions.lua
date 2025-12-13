@@ -2,7 +2,57 @@ local M = {}
 
 -- Initialisation, makes sure `sessions_dir` exists.
 M.init = function()
-  vim.fn.mkdir(vim.g.sessions_dir, "p")
+  vim.fn.mkdir(vim.g.sessions_dir .. "temp/", "p")
+end
+
+M.save_all = function()
+  local cur = vim.api.nvim_get_current_tabpage()
+  local tabids = vim.api.nvim_list_tabpages()
+  local sessions = {}
+  local n = 1
+  for _, v in ipairs(tabids) do
+    local s, sess = pcall(vim.api.nvim_tabpage_get_var, v, "session")
+    if s then
+      if vim.tbl_contains(sessions, sess) then
+        vim.notify("duplicate session, not saving: '" .. sess .. "'", vim.log.levels.WARN)
+      else
+        sessions[n] = sess
+        n = n + 1
+        vim.api.nvim_set_current_tabpage(v)
+        M.save_session(sess)
+      end
+    end
+  end
+  vim.api.nvim_set_current_tabpage(cur)
+  return sessions
+end
+
+M.set_session_cache = function()
+  local cur = vim.fn.tabpagenr()
+  local str = ""
+  local tabids = vim.api.nvim_list_tabpages()
+  local first = true
+  local n = 1
+  for _, v in ipairs(tabids) do
+    local s, sess = pcall(vim.api.nvim_tabpage_get_var, v, "session")
+    if not s then
+      sess = "temp/tab" .. n
+      n = n + 1
+      vim.api.nvim_set_current_tabpage(v)
+      M.save_session(sess)
+    end
+    if first then
+      first = false
+      str = str .. "sil LoadSession " .. sess .. "\n"
+    else str = str .. "sil tab LoadSession " .. sess .. "\n" end
+  end
+  vim.api.nvim_set_current_tabpage(tabids[cur])
+  str = str .. "tabn " .. cur .. "\nsil exec \"!rm " .. vim.g.sessions_dir .. "temp/*.vim ; rm " .. vim.g.session_cache_file .. "\"\n"
+  local file = io.open(vim.g.session_cache_file, "w+")
+  if file == nil then return false end
+  file:write(str)
+  file:close()
+  return true
 end
 
 -- Save a session by name.

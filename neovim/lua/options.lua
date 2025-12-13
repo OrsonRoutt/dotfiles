@@ -84,6 +84,7 @@ vim.diagnostic.config({
 
 g.projects_file = vim.fn.stdpath("data") .. "/projects.lua"
 g.sessions_dir = vim.fn.stdpath("state") .. "/sessions/"
+g.session_cache_file = vim.fn.stdpath("state") .. "/session_cache.vim"
 require("scripts.sessions").init()
 
 g.qf_disable_statusline = 1

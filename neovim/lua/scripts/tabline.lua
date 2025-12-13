@@ -3,7 +3,7 @@ _G.get_tabline = function()
   local tab = vim.fn.tabpagenr()
   if tab ~= 1 then str = str .. "%#TabLine#" end
   local tabids = vim.api.nvim_list_tabpages()
-  for i=1,vim.fn.tabpagenr("$") do
+  for i=1,#tabids do
     if i == tab then str = str .. "%#TabLineSelInd#▏%#TabLineSel#"
     else str = str .. "▏" end
     local s, sess = pcall(vim.api.nvim_tabpage_get_var, tabids[i], "session")
