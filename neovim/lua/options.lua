@@ -41,7 +41,7 @@ o.number = true
 o.relativenumber = true
 o.numberwidth = 2
 
-o.shortmess = "aoOtTIF"
+o.shortmess = "aoOtTF"
 
 o.colorcolumn = "+1"
 
