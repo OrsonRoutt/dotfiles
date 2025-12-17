@@ -40,6 +40,9 @@ M.set_session_cache = function()
       n = n + 1
       vim.api.nvim_set_current_tabpage(v)
       M.save_session(sess)
+    elseif vim.fn.filereadable(vim.g.sessions_dir .. sess .. ".vim") then
+      vim.api.nvim_set_current_tabpage(v)
+      M.save_session(sess)
     end
     if first then
       first = false

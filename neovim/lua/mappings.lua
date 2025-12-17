@@ -93,10 +93,6 @@ map("n", "<leader>n", "<cmd>set nu!<CR>", { desc = "toggle line number" })
 map("n", "<leader>rn", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
 map("n", "<leader>N", "<cmd>set nu!<BAR>set rnu!<CR>", { desc = "toggle line and relative number" })
 
--- Toggle comment.
-map("n", "<leader>/", "gcc", { desc = "toggle comment", remap = true })
-map("v", "<leader>/", "gc", { desc = "toggle comment", remap = true })
-
 -- Buffer mappings.
 map("n", "<leader>x", "<cmd>bd<CR>", { desc = "buffer delete" })
 map("n", "<leader>X", "<cmd>bd!<CR>", { desc = "buffer delete without saving" })
