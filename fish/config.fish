@@ -43,5 +43,10 @@ function ls
   command ls -A -p -C --color=auto $argv
 end
 
+# Sane defaults.
+function emacs
+  command nvim $argv
+end
+
 # Bind <C-z> to 'fg'.
 bind \cz 'fg 2>/dev/null;commandline -f repaint'
