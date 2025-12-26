@@ -32,10 +32,13 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
-    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "kevinhwang91/nvim-ufo" },
+    dependencies = {
+      { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
+      "kevinhwang91/nvim-ufo"
+    },
     build = ":TSUpdate",
     opts = function() return require("configs.treesitter") end,
-    config = function(_, opts) require("nvim-treesitter.configs").setup(opts) end,
+    config = function(_, opts) require("nvim-treesitter.config").setup(opts) end,
   },
   {
     "stevearc/oil.nvim",

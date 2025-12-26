@@ -17,6 +17,8 @@ set XDG_DATA_HOME $HOME/.local/share
 set XDG_STATE_HOME $HOME/.local/state
 set XDG_CACHE_HOME $HOME/.cache
 
+export LANG=en_US.UTF-8
+
 # Read from `/tmp/fish_cwd` and, if it exists, `cd` to it..
 function cwd
   set -l TMP /tmp/fish_cwd
