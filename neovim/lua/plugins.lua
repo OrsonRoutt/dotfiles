@@ -32,13 +32,33 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
-    dependencies = {
-      { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
-      "kevinhwang91/nvim-ufo"
-    },
+    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "kevinhwang91/nvim-ufo" },
     build = ":TSUpdate",
     opts = function() return require("configs.treesitter") end,
-    config = function(_, opts) require("nvim-treesitter.config").setup(opts) end,
+    config = function(_, opts)
+      require("nvim-treesitter").install(opts.install)
+      local ft = {}
+      local n = 1
+      for _, v in ipairs(opts.install) do
+        for _, f in ipairs(vim.treesitter.language.get_filetypes(v)) do
+          ft[n] = f
+          n = n + 1
+        end
+      end
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = ft,
+        callback = function()
+          vim.treesitter.start()
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
+    end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
+    opts = function() return require("configs.textobjects") end,
+    config = function(_, opts) require("nvim-treesitter-textobjects").setup(opts) end,
   },
   {
     "stevearc/oil.nvim",
