@@ -74,7 +74,11 @@ config.window_content_alignment = {
   vertical = "Center",
 }
 -- Set default program to fish.
-config.default_prog = { "fish" }
+if osname == "darwin" then
+  config.default_prog = {"/usr/local/bin/fish"}
+else
+  config.default_prog = {"/usr/bin/fish"}
+end
 
 -- DATA
 local function join(...) return table.concat({...}, "/"):gsub("//+", "/") end
