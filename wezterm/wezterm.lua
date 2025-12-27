@@ -73,6 +73,8 @@ config.window_content_alignment = {
   horizontal = "Center",
   vertical = "Center",
 }
+-- Set default program to fish.
+config.default_prog = { "fish" }
 
 -- DATA
 local function join(...) return table.concat({...}, "/"):gsub("//+", "/") end

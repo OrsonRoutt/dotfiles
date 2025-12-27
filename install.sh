@@ -32,7 +32,6 @@ else
   mkdir -p "$CONFIG/fish"
 fi
 ln -s "$CWD/fish/config.fish" "$CONFIG/fish/config.fish"
-chsh -s $(which fish)
 
 # Lazygit
 if [[ "$OSTYPE" == "darwin"* ]]; then
