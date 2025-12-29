@@ -225,12 +225,12 @@ end
 
 config.keys = {
   {
-    key = "B",
+    key = "<",
     mods = "CTRL|SHIFT",
     action = wezterm.action_callback(toggle_background),
   },
   {
-    key = "C",
+    key = ">",
     mods = "CTRL|SHIFT",
     action = wezterm.action_callback(cycle_background),
   },
