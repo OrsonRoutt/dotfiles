@@ -96,8 +96,10 @@ else
 end
 -- Load data values.
 local backgrounds = {}
-if data then
-  if data.backgrounds then backgrounds = data.backgrounds end
+if data ~= nil then
+  if data.backgrounds ~= nil then
+    backgrounds = data.backgrounds
+  end
 end
 
 -- BACKGROUND SWITCHER
