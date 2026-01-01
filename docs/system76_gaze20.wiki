@@ -1,0 +1,89 @@
+= System76 Gazelle 20 Configuration =
+This document describes configuration I have done for my System76 Gazelle 20 laptop's Arch Linux installation.
+
+Options: 16GB RAM, 1TB Disk
+
+== Firmware ==
+Needs both Intel and NVIDIA firmware due to the integrated GPU being Intel.
+
+System76 firmware I installed:
+- system76-dkms-git
+- system76-driver
+- system76-firmware
+- system76-power
+- I also have system76-keyboard-configurator-git for Caps Lock --> ESC.
+
+linux-firmware
+
+== Hardware ==
+=== Headphone Jack ===
+The kernel is fucking stupid. Put the following in a file in `/ec/modprobe.d/`:
+  `options snd-hda-intel model=dell-headset-multi`
+
+== Disk Configuration ==
+=== Partitioning ===
+My partitions are:
+- 1G EFI.
+  - Mounted at `/efi` to allow `/boot` to be save/restored via snapshots.
+  - I formatted it so there's no PopOS! recovery partition.
+- 16G Swap.
+  - Could be lower but it's 16G for hibernation.
+- Rest Btrfs.
+  - Highly subvolume-d for snapshots.
+
+=== BTRFS ===
+I chose btrfs for fault tolerance and snapshots.
+
+Subvolumes were set up after filesystem creation and were: (`<name>`: `<mount>`, <reason>)
+- `@`: `/`, main subvolume to snapshot.
+- `@home`: `/home`, home directories shouldn't be snapshot-ed with root as they are not system-critical and subject to significant change (also cache data is hard to isolate).
+- `@root`: `/root`, home for the root user.
+- `@srv`: `/srv`, I saw people say to do this.
+- `@var_log`: `/var/log`, logs.
+- `@var_cache`: `/var/cache`, cache.
+- `@var_spool`: `/var/spool`, also basically cache.
+- `@var_tmp`: `/var/tmp`, temp files.
+- `@var_abs`: `/var/abs`, Arch Build System cache?
+- `@snapshots`: `/.snapshots`, Snapper root snapshots directory.
+
+All subvolumes are mounted with `compress=zstd:1` because it saves significant space (and assumedly writes). Level is one because the drive is an NVME SSD and the internet said so.
+- I ended up doing compression after first configuration and had to retroactively compress (with `btrfs defragment`) after deleting snapshots.
+
+=== Snapshots ===
+I use snapper for snapshots. I only snapshot root because I mainly care about system recovery and sync most important data with git. Config is:
+- No number cleanup.
+- 6 hourly snapshots, 7 daily. Fuck.
+
+I use btrfs-assistant to restore snapshots in non-fatal situations (and monitor filesystem usage).
+
+=== Mounting CIFS ===
+For mounting CIFS directories, I used systemd automount in `/etc/fstab`. Example config is:
+  `//<server>/<dir> /mnt/<mount dir> cifs _netdev,guest,noperm,x-systemd.automount 0 0`
+
+Main things of note are: `x-systemd.automount` to only mount when accessed, `guest` for no-login servers, `noperm` to allow non-root users to write.
+
+== Security ==
+My system is not very secure. I am largely relying on Linux being more niche, lack of user permissions, and not being stupid.
+
+For security I have done:
+- Microcode.
+- Disabled the root user via `expiredate=1` (kdesu fix? Don't know if it's needed.)
+- Sudo and su require `wheel` group (su doesn't work anyway).
+- AppArmor is enabled.
+- I have a firewall activated (firewalld).
+
+I do not have any physical protections (BIOS, boot loader, filesystem encryption, etc.) because if someone has access to my computer they can probably bypass whatever I have set up anyway. I also want to be able to use my system in the case it fails.
+
+I have ClamAV installed but only for manual scans. RAM/CPU usage is very high and with the high false positive rate I don't think I would trust popups.
+
+arch-audit-gtk is my friend.
+
+== Loading ==
+I use GRUB as my boot loader and CDM as a display manager. I tried using SDDM initially but it bricked tty2 and wouldn't launch without autologin, CDM works.
+
+== Desktop Environment ==
+I use KDE Plasma w/Wayland as a desktop environment. I want to look at Hyprland but I'll probably stick with plasma.
+
+I installed plasma with the plasma-desktop package for minimal bloat and added the things that I needed.
+
+[WIP]
