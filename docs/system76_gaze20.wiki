@@ -17,7 +17,7 @@ linux-firmware
 
 == Hardware ==
 === Headphone Jack ===
-The kernel is fucking stupid. Put the following in a file in `/ec/modprobe.d/`:
+The kernel is fucking stupid. Put the following in a file in `/etc/modprobe.d/`:
   `options snd-hda-intel model=dell-headset-multi`
 
 == Disk Configuration ==
