@@ -16,8 +16,10 @@ M.setup = function()
   local n = 1
   for _, v in ipairs(parsers) do
     for _, f in ipairs(vim.treesitter.language.get_filetypes(v)) do
-      ft[n] = f
-      n = n + 1
+      if not vim.tbl_contains(ft, f) then
+        ft[n] = f
+        n = n + 1
+      end
     end
   end
   vim.api.nvim_create_autocmd("FileType", {
