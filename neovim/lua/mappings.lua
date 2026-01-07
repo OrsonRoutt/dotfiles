@@ -104,20 +104,10 @@ map("n", "<leader>bc", function() require("scripts.bclose").cleanup() end, { des
 map("n", "<leader>bt", function() require("scripts.bclose").cleanup_term() end, { desc = "terminal cleanup" })
 map("n", "<leader>bT", function() require("scripts.bclose").delete_term() end, { desc = "terminal delete all" })
 map("t", "<C-x>", "<cmd>bd!<CR>", { desc = "terminal delete" })
-map("n", "<leader>j", "<cmd>bn<CR>", { desc = "buffer next" })
-map("n", "<leader>k", "<cmd>bp<CR>", { desc = "buffer previous" })
 
 -- Quickfix/loclist mappings.
 map("n", "<leader>q", function() require("quicker").toggle({ focus = true }) end, { desc = "qflist toggle" })
 map("n", "<leader>l", function() require("quicker").toggle({ loclist = true, focus = true }) end, { desc = "loclist toggle" })
-map("n", "<M-j>", function()
-  if vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 then vim.cmd("lne")
-  else vim.cmd("cn") end
-end, { desc = "qflist/loclist goto next" })
-map("n", "<M-k>", function()
-  if vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 then vim.cmd("lp")
-  else vim.cmd("cp") end
-end, { desc = "qflist/loclist goto prev" })
 
 -- Diagnostic mappings.
 map("n", "<leader>dl", vim.diagnostic.setloclist, { desc = "diagnostic set loclist" })
@@ -343,7 +333,6 @@ map("n", "<leader>og", function()
     job = "lazygit",
   })
 end, { desc = "git toggle lazygit terminal" })
-
 map("n", "<leader>ot", function()
   require("scripts.term").new_float_job({
     width = 0.9,

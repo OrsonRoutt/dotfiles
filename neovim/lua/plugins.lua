@@ -40,8 +40,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
     branch = "main",
-    -- opts = function() return require("configs.textobjects") end,
-    -- config = function(_, opts) require("nvim-treesitter-textobjects").setup(opts) end,
+    config = function(_, _) require("configs.textobjects").setup() end,
   },
   {
     "stevearc/oil.nvim",
